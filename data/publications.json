@@ -1,0 +1,25 @@
+{
+  "workingPapers": [
+    {
+      "id": "1",
+      "title": "Sample Working Paper Title",
+      "authors": ["Your Name", "Co-author Name"],
+      "venue": "Working Paper",
+      "abstract": "This is a sample abstract for a working paper. Replace this with your actual abstract text.",
+      "pdf": "/papers/working-paper-1.pdf",
+      "ssrn": "https://ssrn.com/abstract=1234567"
+    }
+  ],
+  "publications": [
+    {
+      "id": "1",
+      "title": "Sample Published Paper Title",
+      "authors": ["Your Name", "Co-author Name"],
+      "venue": "Journal of Operations Research, 2024",
+      "abstract": "This is a sample abstract for a published paper. Replace this with your actual abstract text.",
+      "pdf": "/papers/publication-1.pdf",
+      "ssrn": "https://ssrn.com/abstract=1234568"
+    }
+  ]
+}
+

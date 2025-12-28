@@ -1,0 +1,15 @@
+[
+  {
+    "date": "2024-01-15",
+    "type": "conference",
+    "title": "Conference Presentation",
+    "description": "Presented research at the Annual Conference on Operations Research"
+  },
+  {
+    "date": "2023-12-10",
+    "type": "award",
+    "title": "Best Paper Award",
+    "description": "Received Best Paper Award at the Supply Chain Management Conference"
+  }
+]
+
