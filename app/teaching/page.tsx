@@ -2,6 +2,7 @@
 
 import { useLocale } from '@/components/LocaleProvider';
 import { getTranslations } from '@/lib/i18n';
+import PageHeader from '@/components/PageHeader';
 import teachingData from '@/data/teaching.json';
 
 export default function Teaching() {
@@ -9,42 +10,42 @@ export default function Teaching() {
   const t = getTranslations(locale);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-4xl font-bold text-gray-900 mb-12">
-        {t.teaching.title}
-      </h1>
+    <div className="mx-auto max-w-4xl px-6 py-16 lg:px-8">
+      <PageHeader
+        eyebrow={locale === 'en' ? 'In the classroom' : '课堂'}
+        title={t.teaching.title}
+      />
 
-      <div className="space-y-6">
+      <div className="mt-12">
         {teachingData.length > 0 ? (
-          teachingData.map((course) => (
-            <div
-              key={course.id}
-              className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
-            >
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                <div className="mb-2 md:mb-0">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-1">
+          <ul>
+            {teachingData.map((course) => (
+              <li
+                key={course.id}
+                className="group flex items-baseline justify-between gap-6 border-t border-ink/[0.09] py-7 first:border-t-0"
+              >
+                <div>
+                  <h3 className="font-serif text-xl text-ink">
                     {course.course}
                   </h3>
-                  <p className="text-sm text-gray-600">{course.semester}</p>
+                  <p className="mt-1 text-sm text-stone-500">
+                    {course.semester}
+                  </p>
                 </div>
-                <span className="inline-block px-4 py-2 bg-washu-green text-white text-sm font-medium rounded">
+                <span className="shrink-0 whitespace-nowrap text-xs uppercase tracking-eyebrow text-accent">
                   {course.role === 'ta'
                     ? t.teaching.role.ta
                     : t.teaching.role.instructor}
                 </span>
-              </div>
-            </div>
-          ))
+              </li>
+            ))}
+          </ul>
         ) : (
-          <p className="text-gray-600 italic">
-            {locale === 'en'
-              ? 'No teaching experience available.'
-              : '暂无教学经历。'}
+          <p className="py-6 text-stone-500 italic">
+            {locale === 'en' ? 'Nothing here yet.' : '暂无内容。'}
           </p>
         )}
       </div>
     </div>
   );
 }
-

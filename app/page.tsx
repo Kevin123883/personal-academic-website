@@ -10,57 +10,75 @@ export default function Home() {
   const t = getTranslations(locale);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
-        {/* Avatar */}
-        <div className="flex-shrink-0">
-          <Avatar name={aboutData.name} />
-        </div>
-
-        {/* Content */}
-        <div className="flex-1 text-center md:text-left">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+    <div className="mx-auto max-w-6xl px-6 lg:px-8">
+      {/* Hero */}
+      <section className="grid grid-cols-1 items-start gap-12 py-16 md:grid-cols-[1fr_auto] md:gap-16 md:py-24">
+        <div className="order-2 animate-fade-up md:order-1">
+          <p className="eyebrow">
+            {t.home.phdCandidate} · {aboutData.department}
+          </p>
+          <h1 className="mt-5 font-serif text-5xl font-normal leading-[1.05] tracking-tight text-ink text-balance sm:text-6xl">
             {aboutData.name}
           </h1>
-          <p className="text-xl text-gray-700 mb-4">
-            {t.home.phdCandidate}, {aboutData.department}
-          </p>
-          <p className="text-lg text-gray-600 mb-6">
+          <p className="mt-4 text-lg text-stone-500">
             {aboutData.affiliation}
           </p>
 
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              {locale === 'en' ? 'About' : '关于'}
-            </h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              {aboutData.bio[locale as 'en' | 'zh']}
-            </p>
+          <p className="mt-8 max-w-prose text-lg leading-relaxed text-stone-700 text-pretty">
+            {aboutData.bio[locale as 'en' | 'zh']}
+          </p>
+
+          {/* Research interests as understated inline tags */}
+          <div className="mt-8 flex flex-wrap gap-2.5">
+            {aboutData.researchInterests[locale as 'en' | 'zh'].map(
+              (interest, index) => (
+                <span
+                  key={index}
+                  className="rounded-full border border-ink/10 bg-white/40 px-3.5 py-1.5 text-sm text-stone-600"
+                >
+                  {interest}
+                </span>
+              )
+            )}
           </div>
 
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              {locale === 'en' ? 'Research Interests' : '研究兴趣'}
-            </h2>
-            <ul className="list-disc list-inside text-gray-700 space-y-1">
-              {aboutData.researchInterests[locale as 'en' | 'zh'].map(
-                (interest, index) => (
-                  <li key={index}>{interest}</li>
-                )
-              )}
-            </ul>
-          </div>
+          {/* Actions */}
+          <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3">
+            <a
+              href={aboutData.cv}
+              download
+              className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-medium text-paper transition-all hover:bg-accent"
+            >
+              {t.home.downloadCV}
+              <svg
+                className="h-4 w-4 transition-transform group-hover:translate-y-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.6}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v12m0 0l-4-4m4 4l4-4M5 19.5h14"
+                />
+              </svg>
+            </a>
 
-          <a
-            href={aboutData.cv}
-            download
-            className="inline-block px-6 py-3 bg-washu-green text-white font-medium rounded-lg hover:bg-opacity-90 transition-colors"
-          >
-            {t.home.downloadCV}
-          </a>
+            <a
+              href={`mailto:${aboutData.email}`}
+              className="link-underline text-sm text-stone-600 transition-colors hover:text-ink"
+            >
+              {aboutData.email}
+            </a>
+          </div>
         </div>
-      </div>
+
+        {/* Portrait */}
+        <div className="order-1 flex justify-center animate-fade-in md:order-2 md:justify-end">
+          <Avatar name={aboutData.name} />
+        </div>
+      </section>
     </div>
   );
 }
-

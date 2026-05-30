@@ -8,66 +8,61 @@ interface PublicationCardProps {
   publication: Publication;
   locale: Locale;
   highlightAuthor?: string;
+  index?: number;
 }
 
 export default function PublicationCard({
   publication,
   locale,
   highlightAuthor,
+  index = 0,
 }: PublicationCardProps) {
   const [showAbstract, setShowAbstract] = useState(false);
   const t = getTranslations(locale);
 
   const formatAuthors = (authors: string[]) => {
-    return authors.map((author, index) => {
+    return authors.map((author, i) => {
       const isHighlighted =
-        highlightAuthor && author.toLowerCase().includes(highlightAuthor.toLowerCase());
+        highlightAuthor &&
+        author.toLowerCase().includes(highlightAuthor.toLowerCase());
       return (
-        <span key={index}>
+        <span key={i}>
           {isHighlighted ? (
-            <strong className="text-washu-green">{author}</strong>
+            <span className="font-medium text-ink">{author}</span>
           ) : (
             author
           )}
-          {index < authors.length - 1 && ', '}
+          {i < authors.length - 1 && ', '}
         </span>
       );
     });
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-6 mb-6 hover:shadow-md transition-shadow">
-      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+    <article className="group relative border-t border-ink/[0.09] py-8 transition-colors first:border-t-0">
+      {/* Index numeral as a quiet editorial flourish */}
+      <span className="absolute -left-10 top-9 hidden font-serif text-sm text-stone-300 lg:block">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+
+      <h3 className="font-serif text-xl leading-snug text-ink">
         {publication.title}
       </h3>
-      <p className="text-sm text-gray-700 mb-2">
+      <p className="mt-2 text-[0.95rem] text-stone-600">
         {formatAuthors(publication.authors)}
       </p>
-      <p className="text-sm text-gray-600 italic mb-4">{publication.venue}</p>
+      <p className="mt-1 font-serif text-[0.95rem] italic text-stone-500">
+        {publication.venue}
+      </p>
 
-      {publication.abstract && (
-        <div className="mb-4">
-          <button
-            onClick={() => setShowAbstract(!showAbstract)}
-            className="text-sm text-washu-green hover:text-washu-red transition-colors mb-2"
-          >
-            {showAbstract ? t.research.hideAbstract : t.research.showAbstract}
-          </button>
-          {showAbstract && (
-            <p className="text-sm text-gray-700 mt-2 leading-relaxed">
-              {publication.abstract}
-            </p>
-          )}
-        </div>
-      )}
-
-      <div className="flex flex-wrap gap-3">
+      {/* Links + abstract toggle */}
+      <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
         {publication.pdf && (
           <a
             href={publication.pdf}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-washu-green text-white text-sm rounded hover:bg-opacity-90 transition-colors"
+            className="link-underline font-medium text-accent transition-colors hover:text-ink"
           >
             {t.research.pdf}
           </a>
@@ -77,13 +72,26 @@ export default function PublicationCard({
             href={publication.ssrn}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 border border-washu-green text-washu-green text-sm rounded hover:bg-washu-green hover:text-white transition-colors"
+            className="link-underline font-medium text-accent transition-colors hover:text-ink"
           >
             {t.research.ssrn}
           </a>
         )}
+        {publication.abstract && (
+          <button
+            onClick={() => setShowAbstract(!showAbstract)}
+            className="text-stone-500 transition-colors hover:text-ink"
+          >
+            {showAbstract ? t.research.hideAbstract : t.research.showAbstract}
+          </button>
+        )}
       </div>
-    </div>
+
+      {publication.abstract && showAbstract && (
+        <p className="mt-4 max-w-prose border-l-2 border-accent/30 pl-4 text-[0.95rem] leading-relaxed text-stone-600 animate-fade-up">
+          {publication.abstract}
+        </p>
+      )}
+    </article>
   );
 }
-

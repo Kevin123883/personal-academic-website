@@ -3,24 +3,95 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 255, 255, 255;
+  --paper: #fbfaf7;
+  --ink: #1a1a18;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    color: var(--ink);
+    background-color: var(--paper);
+    /* Barely-there warm vignette so the page reads as paper, not screen */
+    background-image: radial-gradient(
+      1200px 600px at 50% -10%,
+      rgba(52, 86, 74, 0.05),
+      transparent 70%
+    );
+    font-feature-settings: "kern", "liga", "calt";
+  }
+
+  /* Refined text selection */
+  ::selection {
+    background-color: rgba(52, 86, 74, 0.16);
+    color: var(--ink);
+  }
+
+  /* Elegant, unobtrusive focus rings */
+  :focus-visible {
+    outline: 2px solid rgba(52, 86, 74, 0.55);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  h1, h2, h3, h4 {
+    font-feature-settings: "kern", "liga";
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Small all-caps eyebrow label used across the site */
+  .eyebrow {
+    font-size: 0.72rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 500;
+    color: theme("colors.accent.DEFAULT");
+  }
+
+  /* A hairline divider that feels like ink, not a Tailwind border */
+  .hairline {
+    border-color: rgba(26, 26, 24, 0.1);
+  }
+
+  /* Animated underline for inline links */
+  .link-underline {
+    background-image: linear-gradient(
+      currentColor,
+      currentColor
+    );
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
 }
 
+/* Honour reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

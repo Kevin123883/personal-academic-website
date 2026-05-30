@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useLocale } from './LocaleProvider';
 import { getTranslations } from '@/lib/i18n';
+import aboutData from '@/data/about.json';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,49 +28,71 @@ export default function Navigation() {
     return pathname?.startsWith(href);
   };
 
+  // Use initials as a quiet monogram instead of loud institutional branding
+  const initials = aboutData.name
+    .split(' ')
+    .map((part) => part.charAt(0))
+    .join('');
+
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <Link href="/" className="text-xl font-semibold text-gray-900">
-              WashU SCOT
-            </Link>
-          </div>
+    <nav className="sticky top-0 z-50 border-b border-ink/[0.07] bg-paper/80 backdrop-blur-md">
+      <div className="mx-auto max-w-6xl px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <Link
+            href="/"
+            className="group flex items-baseline gap-2.5"
+            aria-label={aboutData.name}
+          >
+            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-ink/15 font-serif text-sm text-ink transition-colors group-hover:border-accent group-hover:text-accent">
+              {initials}
+            </span>
+            <span className="font-serif text-lg tracking-tight text-ink">
+              {aboutData.name}
+            </span>
+          </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`px-3 py-2 text-sm font-medium transition-colors ${
-                  isActive(item.href)
-                    ? 'text-washu-green border-b-2 border-washu-green'
-                    : 'text-gray-700 hover:text-washu-green'
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <div className="flex items-center space-x-2 ml-4">
+          <div className="hidden items-center gap-9 md:flex">
+            <ul className="flex items-center gap-8">
+              {navItems.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`relative text-[0.95rem] transition-colors ${
+                      isActive(item.href)
+                        ? 'text-ink'
+                        : 'text-stone-500 hover:text-ink'
+                    }`}
+                  >
+                    {item.label}
+                    <span
+                      className={`absolute -bottom-1.5 left-0 h-px bg-accent transition-all duration-300 ${
+                        isActive(item.href) ? 'w-full' : 'w-0'
+                      }`}
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <div className="flex items-center gap-2 border-l border-ink/10 pl-7 text-xs">
               <button
                 onClick={() => setLocale('en')}
-                className={`px-2 py-1 text-sm ${
+                className={`transition-colors ${
                   locale === 'en'
-                    ? 'text-washu-green font-semibold'
-                    : 'text-gray-600 hover:text-washu-green'
+                    ? 'text-ink'
+                    : 'text-stone-400 hover:text-ink'
                 }`}
               >
                 EN
               </button>
-              <span className="text-gray-300">|</span>
+              <span className="text-stone-300">/</span>
               <button
                 onClick={() => setLocale('zh')}
-                className={`px-2 py-1 text-sm ${
+                className={`transition-colors ${
                   locale === 'zh'
-                    ? 'text-washu-green font-semibold'
-                    : 'text-gray-600 hover:text-washu-green'
+                    ? 'text-ink'
+                    : 'text-stone-400 hover:text-ink'
                 }`}
               >
                 中文
@@ -78,79 +101,72 @@ export default function Navigation() {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 hover:text-washu-green focus:outline-none"
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-ink focus:outline-none md:hidden"
+            aria-label="Toggle menu"
+          >
+            <svg
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
             >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {isOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
-          </div>
+              {isOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              )}
+            </svg>
+          </button>
         </div>
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden pb-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className={`block px-3 py-2 text-base font-medium ${
-                  isActive(item.href)
-                    ? 'text-washu-green'
-                    : 'text-gray-700 hover:text-washu-green'
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <div className="flex items-center space-x-2 px-3 py-2 mt-2">
+          <div className="border-t border-ink/[0.07] py-4 md:hidden">
+            <ul className="flex flex-col">
+              {navItems.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`block py-2.5 text-base transition-colors ${
+                      isActive(item.href)
+                        ? 'text-accent'
+                        : 'text-stone-600 hover:text-ink'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-3 flex items-center gap-2 border-t border-ink/[0.07] pt-4 text-sm">
               <button
                 onClick={() => {
                   setLocale('en');
                   setIsOpen(false);
                 }}
-                className={`px-2 py-1 text-sm ${
-                  locale === 'en'
-                    ? 'text-washu-green font-semibold'
-                    : 'text-gray-600'
-                }`}
+                className={locale === 'en' ? 'text-ink' : 'text-stone-400'}
               >
                 EN
               </button>
-              <span className="text-gray-300">|</span>
+              <span className="text-stone-300">/</span>
               <button
                 onClick={() => {
                   setLocale('zh');
                   setIsOpen(false);
                 }}
-                className={`px-2 py-1 text-sm ${
-                  locale === 'zh'
-                    ? 'text-washu-green font-semibold'
-                    : 'text-gray-600'
-                }`}
+                className={locale === 'zh' ? 'text-ink' : 'text-stone-400'}
               >
                 中文
               </button>

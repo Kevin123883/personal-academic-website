@@ -15,7 +15,7 @@ export default function NewsTimeline({ items, locale }: NewsTimelineProps) {
     const date = new Date(dateString);
     return date.toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', {
       year: 'numeric',
-      month: 'long',
+      month: 'short',
       day: 'numeric',
     });
   };
@@ -36,40 +36,29 @@ export default function NewsTimeline({ items, locale }: NewsTimelineProps) {
   );
 
   return (
-    <div className="relative">
-      {/* Timeline line */}
-      <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-300 hidden md:block"></div>
+    <ol className="relative border-l border-ink/10">
+      {sortedItems.map((item, index) => (
+        <li key={index} className="group relative pb-10 pl-8 last:pb-0">
+          {/* Node */}
+          <span className="absolute -left-[5px] top-1.5 h-2.5 w-2.5 rounded-full border border-accent bg-paper transition-colors group-hover:bg-accent" />
 
-      <div className="space-y-8">
-        {sortedItems.map((item, index) => (
-          <div key={index} className="relative flex items-start">
-            {/* Timeline dot */}
-            <div className="absolute left-0 top-2 w-8 h-8 bg-washu-green rounded-full border-4 border-white hidden md:flex items-center justify-center">
-              <div className="w-2 h-2 bg-washu-green rounded-full"></div>
-            </div>
-
-            <div className="ml-0 md:ml-12 flex-1">
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-                  <span className="text-xs font-semibold text-washu-green uppercase tracking-wide mb-1 sm:mb-0">
-                    {getTypeLabel(item.type)}
-                  </span>
-                  <span className="text-sm text-gray-600">
-                    {formatDate(item.date)}
-                  </span>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
-            </div>
+          <div className="flex flex-wrap items-baseline gap-x-3">
+            <time className="font-serif text-sm italic text-stone-500">
+              {formatDate(item.date)}
+            </time>
+            {getTypeLabel(item.type) && (
+              <span className="text-[0.7rem] uppercase tracking-eyebrow text-accent">
+                {getTypeLabel(item.type)}
+              </span>
+            )}
           </div>
-        ))}
-      </div>
-    </div>
+
+          <h3 className="mt-2 font-serif text-xl text-ink">{item.title}</h3>
+          <p className="mt-1.5 max-w-prose leading-relaxed text-stone-600">
+            {item.description}
+          </p>
+        </li>
+      ))}
+    </ol>
   );
 }
-
