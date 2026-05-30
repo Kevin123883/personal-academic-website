@@ -17,7 +17,14 @@ const newsreader = Newsreader({
   style: ["normal", "italic"],
 });
 
+// Set NEXT_PUBLIC_SITE_URL in your deployment (e.g. Vercel env vars) to your
+// real domain. Falls back to a sensible default so nothing breaks locally.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  "https://kaiwenluo.ink";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: `${aboutData.name} - ${aboutData.title}`,
     template: `%s | ${aboutData.name}`,
@@ -38,15 +45,15 @@ export const metadata: Metadata = {
     siteName: `${aboutData.name} - Academic Website`,
     title: `${aboutData.name} - ${aboutData.title}`,
     description: aboutData.bio.en,
-    url: "https://kaiwenluo.ink", // Update with actual URL
+    url: siteUrl,
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${aboutData.name} - ${aboutData.title}`,
     description: aboutData.bio.en,
   },
   alternates: {
-    canonical: "https://kaiwenluo.ink", // Update with actual URL
+    canonical: siteUrl,
   },
 };
 
