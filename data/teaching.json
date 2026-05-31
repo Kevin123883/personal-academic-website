@@ -1,14 +1,1 @@
-[
-  {
-    "id": "t-1",
-    "course": "[Course name, e.g. Operations Management]",
-    "semester": "Fall 2024",
-    "role": "ta"
-  },
-  {
-    "id": "t-2",
-    "course": "[Course name, e.g. Supply Chain Analytics]",
-    "semester": "Spring 2024",
-    "role": "instructor"
-  }
-]
+[]

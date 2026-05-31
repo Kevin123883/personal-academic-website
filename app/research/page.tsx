@@ -6,14 +6,17 @@ import PublicationCard from '@/components/PublicationCard';
 import PageHeader from '@/components/PageHeader';
 import publicationsData from '@/data/publications.json';
 import aboutData from '@/data/about.json';
+import { PublicationsData } from '@/lib/types';
+
+const publications = publicationsData as PublicationsData;
 
 export default function Research() {
   const { locale } = useLocale();
   const t = getTranslations(locale);
 
   const sections = [
-    { title: t.research.workingPapers, items: publicationsData.workingPapers },
-    { title: t.research.publications, items: publicationsData.publications },
+    { title: t.research.workingPapers, items: publications.workingPapers },
+    { title: t.research.publications, items: publications.publications },
   ];
 
   return (

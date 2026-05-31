@@ -1,22 +1,4 @@
 {
-  "workingPapers": [
-    {
-      "id": "wp-1",
-      "title": "[Working paper title goes here]",
-      "authors": ["Kaiwen Luo", "Co-author Name"],
-      "venue": "Working Paper, 2025",
-      "abstract": "[Optional: paste the abstract here. Delete this field if you don't want a 'Show Abstract' toggle.]",
-      "ssrn": "https://ssrn.com/abstract=0000000"
-    }
-  ],
-  "publications": [
-    {
-      "id": "pub-1",
-      "title": "[Published paper title goes here]",
-      "authors": ["Kaiwen Luo", "Co-author Name"],
-      "venue": "Journal Name, 2024",
-      "abstract": "[Optional: paste the abstract here. Delete this field to hide the toggle.]",
-      "pdf": "/papers/publication-1.pdf"
-    }
-  ]
+  "workingPapers": [],
+  "publications": []
 }

@@ -4,6 +4,9 @@ import { useLocale } from '@/components/LocaleProvider';
 import { getTranslations } from '@/lib/i18n';
 import PageHeader from '@/components/PageHeader';
 import teachingData from '@/data/teaching.json';
+import { TeachingCourse } from '@/lib/types';
+
+const teaching = teachingData as TeachingCourse[];
 
 export default function Teaching() {
   const { locale } = useLocale();
@@ -17,9 +20,9 @@ export default function Teaching() {
       />
 
       <div className="mt-12">
-        {teachingData.length > 0 ? (
+        {teaching.length > 0 ? (
           <ul>
-            {teachingData.map((course) => (
+            {teaching.map((course) => (
               <li
                 key={course.id}
                 className="group flex items-baseline justify-between gap-6 border-t border-ink/[0.09] py-7 first:border-t-0"
