@@ -9,26 +9,28 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Warm editorial neutrals — the foundation of the "quiet luxury" look
-        paper: "#FBFAF7",
-        ink: "#1A1A18",
+        // Warm editorial neutrals — driven by CSS variables so a single set of
+        // tokens can flip between light ("paper") and dark ("ink at night") themes.
+        // The `<alpha-value>` placeholder keeps Tailwind's `/[0.07]` opacity syntax working.
+        paper: "rgb(var(--paper) / <alpha-value>)",
+        ink: "rgb(var(--ink) / <alpha-value>)",
         // A single restrained accent: muted forest green (a whisper of WashU, not a shout)
         accent: {
-          DEFAULT: "#34564A",
-          soft: "#4A6E60",
+          DEFAULT: "rgb(var(--accent) / <alpha-value>)",
+          soft: "rgb(var(--accent-soft) / <alpha-value>)",
         },
-        // Warm grey scale for text & hairlines
+        // Warm grey scale for text & hairlines (ramp inverts in dark mode)
         stone: {
-          50: "#F7F6F2",
-          100: "#EEEDE7",
-          200: "#E0DED6",
-          300: "#C9C6BB",
-          400: "#A8A496",
-          500: "#86826F",
-          600: "#6A6657",
-          700: "#4F4C40",
-          800: "#36342B",
-          900: "#22211B",
+          50: "rgb(var(--stone-50) / <alpha-value>)",
+          100: "rgb(var(--stone-100) / <alpha-value>)",
+          200: "rgb(var(--stone-200) / <alpha-value>)",
+          300: "rgb(var(--stone-300) / <alpha-value>)",
+          400: "rgb(var(--stone-400) / <alpha-value>)",
+          500: "rgb(var(--stone-500) / <alpha-value>)",
+          600: "rgb(var(--stone-600) / <alpha-value>)",
+          700: "rgb(var(--stone-700) / <alpha-value>)",
+          800: "rgb(var(--stone-800) / <alpha-value>)",
+          900: "rgb(var(--stone-900) / <alpha-value>)",
         },
         // Kept for backward compatibility, remapped to the muted accent
         "washu-green": "#34564A",

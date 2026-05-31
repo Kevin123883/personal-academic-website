@@ -3,6 +3,7 @@
 import { ErrorBoundary } from './ErrorBoundary';
 import Navigation from './Navigation';
 import { LocaleProvider, useLocale } from './LocaleProvider';
+import { ThemeProvider } from './ThemeProvider';
 import aboutData from '@/data/about.json';
 
 function SiteFooter() {
@@ -61,13 +62,15 @@ function SiteFooter() {
 export default function AppWrapper({ children }: { children: React.ReactNode }) {
   return (
     <ErrorBoundary>
-      <LocaleProvider>
-        <div className="flex min-h-screen flex-col">
-          <Navigation />
-          <main className="flex-grow">{children}</main>
-          <SiteFooter />
-        </div>
-      </LocaleProvider>
+      <ThemeProvider>
+        <LocaleProvider>
+          <div className="flex min-h-screen flex-col">
+            <Navigation />
+            <main className="flex-grow">{children}</main>
+            <SiteFooter />
+          </div>
+        </LocaleProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }

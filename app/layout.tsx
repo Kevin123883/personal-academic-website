@@ -57,13 +57,24 @@ export const metadata: Metadata = {
   },
 };
 
+// Runs before first paint to set the theme class, preventing a light-mode
+// flash for visitors who prefer (or previously chose) dark mode.
+const themeScript = `(function(){try{var k='washu-academic-website-theme';var s=localStorage.getItem(k);var d=s==='dark'||(!s&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${newsreader.variable}`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${newsreader.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="font-sans antialiased">
         <AppWrapper>{children}</AppWrapper>
       </body>

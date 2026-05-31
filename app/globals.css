@@ -2,9 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Color tokens as space-separated RGB channels so Tailwind can apply opacity
+ * (e.g. `border-ink/[0.07]`). Light is the default; `.dark` on <html> flips them.
+ */
 :root {
-  --paper: #fbfaf7;
-  --ink: #1a1a18;
+  --paper: 251 250 247;
+  --ink: 26 26 24;
+  --accent: 52 86 74;
+  --accent-soft: 74 110 96;
+  --stone-50: 247 246 242;
+  --stone-100: 238 237 231;
+  --stone-200: 224 222 214;
+  --stone-300: 201 198 187;
+  --stone-400: 168 164 150;
+  --stone-500: 134 130 111;
+  --stone-600: 106 102 87;
+  --stone-700: 79 76 64;
+  --stone-800: 54 52 43;
+  --stone-900: 34 33 27;
+  --vignette: 52 86 74;
+  color-scheme: light;
+}
+
+.dark {
+  /* Warm near-black "paper at night" with an off-white ink; the grey ramp
+     inverts so low numbers stay light-fill and high numbers stay strong text. */
+  --paper: 22 21 18;
+  --ink: 235 233 226;
+  --accent: 138 176 160;
+  --accent-soft: 110 148 132;
+  --stone-50: 34 33 27;
+  --stone-100: 54 52 43;
+  --stone-200: 79 76 64;
+  --stone-300: 106 102 87;
+  --stone-400: 134 130 111;
+  --stone-500: 168 164 150;
+  --stone-600: 201 198 187;
+  --stone-700: 224 222 214;
+  --stone-800: 238 237 231;
+  --stone-900: 247 246 242;
+  --vignette: 138 176 160;
+  color-scheme: dark;
 }
 
 @layer base {
@@ -16,26 +55,27 @@
   }
 
   body {
-    color: var(--ink);
-    background-color: var(--paper);
+    color: rgb(var(--ink));
+    background-color: rgb(var(--paper));
     /* Barely-there warm vignette so the page reads as paper, not screen */
     background-image: radial-gradient(
       1200px 600px at 50% -10%,
-      rgba(52, 86, 74, 0.05),
+      rgb(var(--vignette) / 0.05),
       transparent 70%
     );
     font-feature-settings: "kern", "liga", "calt";
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 
   /* Refined text selection */
   ::selection {
-    background-color: rgba(52, 86, 74, 0.16);
-    color: var(--ink);
+    background-color: rgb(var(--accent) / 0.18);
+    color: rgb(var(--ink));
   }
 
   /* Elegant, unobtrusive focus rings */
   :focus-visible {
-    outline: 2px solid rgba(52, 86, 74, 0.55);
+    outline: 2px solid rgb(var(--accent) / 0.55);
     outline-offset: 3px;
     border-radius: 2px;
   }
@@ -65,7 +105,7 @@
 
   /* A hairline divider that feels like ink, not a Tailwind border */
   .hairline {
-    border-color: rgba(26, 26, 24, 0.1);
+    border-color: rgb(var(--ink) / 0.1);
   }
 
   /* Animated underline for inline links */

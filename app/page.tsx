@@ -34,7 +34,7 @@ export default function Home() {
               (interest, index) => (
                 <span
                   key={index}
-                  className="rounded-full border border-ink/10 bg-white/40 px-3.5 py-1.5 text-sm text-stone-600"
+                  className="rounded-full border border-ink/10 bg-ink/[0.03] px-3.5 py-1.5 text-sm text-stone-600"
                 >
                   {interest}
                 </span>
