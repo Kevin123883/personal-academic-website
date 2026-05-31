@@ -21,7 +21,7 @@ const newsreader = Newsreader({
 // real domain. Falls back to a sensible default so nothing breaks locally.
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://kaiwenluo.ink";
+  "https://kaiwenluo.me";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
