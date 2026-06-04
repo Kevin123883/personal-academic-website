@@ -26,5 +26,19 @@
     "semester": "2024 Spring",
     "role": "ta",
     "location": "USTC"
+  },
+  {
+    "id": "scot-3150",
+    "course": "SCOT 3150: Operations and Manufacturing Management",
+    "semester": "2025 Fall",
+    "role": "ta",
+    "location": "WashU"
+  },
+  {
+    "id": "dat-6567",
+    "course": "DAT 6567: Prescriptive Analytics",
+    "semester": "2026 Spring",
+    "role": "ta",
+    "location": "WashU"
   }
 ]

@@ -1,11 +1,12 @@
 {
   "publications": [
     {
-      "id": "agentic-shopping",
-      "title": "A Theory of Agentic Shopping",
+      "id": "agentic-commerce",
+      "title": "The Economics of Agentic Commerce: Search, Complexity, and Discrimination",
       "authors": ["Kaiwen Luo", "Lingxiu Dong", "Fasheng Xu"],
       "status": "in_prep",
-      "note": "In preparation."
+      "note": "In preparation.",
+      "highlight": "Accepted, 2026 MSOM TIE SIG Conference"
     }
   ]
 }
