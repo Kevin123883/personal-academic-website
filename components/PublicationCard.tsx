@@ -51,9 +51,11 @@ export default function PublicationCard({
       <p className="mt-2 text-[0.95rem] text-stone-600">
         {formatAuthors(publication.authors)}
       </p>
-      <p className="mt-1 font-serif text-[0.95rem] italic text-stone-500">
-        {publication.venue}
-      </p>
+      {(publication.venue || publication.note) && (
+        <p className="mt-1 font-serif text-[0.95rem] italic text-stone-500">
+          {publication.venue || publication.note}
+        </p>
+      )}
 
       {/* Links + abstract toggle */}
       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">

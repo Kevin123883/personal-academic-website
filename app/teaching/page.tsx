@@ -32,7 +32,9 @@ export default function Teaching() {
                     {course.course}
                   </h3>
                   <p className="mt-1 text-sm text-stone-500">
-                    {course.semester}
+                    {[course.semester, course.location]
+                      .filter(Boolean)
+                      .join(' · ')}
                   </p>
                 </div>
                 <span className="shrink-0 whitespace-nowrap text-xs uppercase tracking-eyebrow text-accent">

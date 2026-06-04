@@ -7,6 +7,7 @@ A professional academic website built with Next.js 15 (App Router) and Tailwind 
 - **Bilingual Support**: English and Chinese (Simplified) with language preference persistence
 - **Responsive Design**: Perfectly adapted for mobile and desktop
 - **Data-Driven Content**: All content managed through JSON files, no code changes needed
+- **Single-Source CV**: The downloadable CV PDF is generated from the *same* JSON via LaTeX (`npm run cv`), so the website and the CV never drift apart
 - **Modern UI**: Minimalist, academic, and professional design
 - **WashU Branding**: Official WashU colors (Green #007360, Red #A51417)
 - **SEO Optimized**: Comprehensive metadata, Open Graph, and Twitter Card support
@@ -29,8 +30,8 @@ npm install
 
 2. **Add your personal assets:**
    - Place your avatar image at `public/images/avatar.png` (recommended: 512x512 or larger, square)
-   - Place your CV PDF at `public/cv.pdf`
    - Place paper PDFs in `public/papers/` directory (if applicable)
+   - The CV at `public/cv.pdf` is **generated** — see [CV: one source of truth](#-cv-one-source-of-truth) below, not hand-placed
 
 3. **Update your information in `data/about.json`:**
    - Name, title, affiliation
@@ -40,14 +41,19 @@ npm install
    - **Important**: Replace the Google Scholar placeholder URL with your actual profile URL
 
 4. **Update your publications in `data/publications.json`:**
-   - Add working papers and publications
-   - Include title, authors, venue, abstract, PDF, and SSRN links
+   - One flat list; each item has a `status` of `published`, `in_review`, or `in_prep`
+   - The site buckets these into Publications (published) and Working Papers (in review / in prep); the CV prints them as Published / In Review / In Prep
+   - Include title, authors, and (for published work) venue/year; add `abstract`, `pdf`, `ssrn` as available
 
 5. **Update your teaching experience in `data/teaching.json`:**
-   - Course name, semester, and role (TA or Instructor)
+   - Course name, semester, role (`ta` or `instructor`), and optional `location`
 
 6. **Update your news in `data/news.json`:**
-   - Conference presentations, awards, and other news items
+   - Conference presentations, awards, and other news items (website only)
+
+7. **Update your education and CV-only sections:**
+   - `data/education.json` — degrees, advisor (shown on the home page and the CV)
+   - `data/cv.json` — awards, presentations, mentoring, service, development, peer review, memberships
 
 ### Development
 
@@ -81,6 +87,31 @@ Run ESLint:
 npm run lint
 ```
 
+## 📄 CV: one source of truth
+
+The website **and** the downloadable CV PDF are built from the same JSON in `data/`.
+Edit the data once, run one command, and both update — they can never drift apart.
+
+```bash
+npm run cv
+```
+
+This runs `scripts/build-cv.mjs`, which:
+
+1. Reads `data/about.json`, `education.json`, `publications.json`, `teaching.json`, and `cv.json`.
+2. Generates the LaTeX section files under `CV/cv/*.tex` (these are **auto-generated — do not edit by hand**).
+3. Compiles the CV with XeLaTeX (`latexmk`) and copies the result to `public/cv.pdf`.
+
+**Typical workflow:** edit a `data/*.json` file → `npm run cv` → the new `public/cv.pdf` is ready and the website (which reads the same JSON) already reflects the change.
+
+### Requirements
+
+- A LaTeX distribution with **XeLaTeX** on your `PATH` (MiKTeX on Windows, TeX Live / MacTeX elsewhere). `latexmk` must be available.
+- The CV's look lives in `CV/cv.tex` (layout, which sections are included) and `CV/academic-cv.cls` (styling, fonts). Edit those to restyle the CV; edit `data/` to change its content.
+- Fonts are bundled in `CV/fonts/`; the build points XeTeX at them automatically.
+
+> The generated `.tex` files and LaTeX build artifacts (`CV/cv.pdf`, `*.aux`, `*.log`, …) are git-ignored. `public/cv.pdf` is the committed, served output.
+
 ## 📁 Project Structure
 
 ```
@@ -109,11 +140,20 @@ washu-academic-website/
 │   ├── Navigation.tsx     # Navigation bar component
 │   ├── NewsTimeline.tsx   # News timeline component
 │   └── PublicationCard.tsx # Publication card component
-├── data/                  # JSON data files
-│   ├── about.json         # Personal information
-│   ├── publications.json  # Research papers
-│   ├── news.json          # News and events
-│   └── teaching.json      # Teaching experience
+├── data/                  # JSON data files — the single source of truth
+│   ├── about.json         # Personal information (+ CV header fields)
+│   ├── education.json     # Education entries
+│   ├── publications.json  # Research papers (status-tagged)
+│   ├── teaching.json      # Teaching experience
+│   ├── news.json          # News and events (website only)
+│   └── cv.json            # CV-only sections (awards, talks, service, ...)
+├── CV/                    # LaTeX CV template (the CV's "skin")
+│   ├── cv.tex             # Main document (layout + included sections)
+│   ├── academic-cv.cls    # Class file (styling)
+│   ├── fonts/             # Bundled fonts
+│   └── cv/                # Section files — AUTO-GENERATED by build-cv.mjs
+├── scripts/
+│   └── build-cv.mjs       # data/ → LaTeX → public/cv.pdf  (`npm run cv`)
 ├── lib/                   # Utility functions
 │   ├── i18n.ts            # Internationalization translations
 │   └── types.ts           # TypeScript type definitions
@@ -121,7 +161,7 @@ washu-academic-website/
 │   ├── images/            # Images (avatar, etc.)
 │   │   └── avatar.png     # Avatar file (PNG format)
 │   ├── papers/            # Paper PDF files
-│   └── cv.pdf             # CV file
+│   └── cv.pdf             # CV file (generated — do not edit by hand)
 ├── next.config.js         # Next.js configuration
 ├── tailwind.config.ts     # Tailwind CSS configuration
 ├── tsconfig.json          # TypeScript configuration
@@ -155,9 +195,8 @@ All content is managed through JSON files in the `data/` directory. Simply edit 
    - Recommended size: 512x512 or larger, square
 
 2. **Update CV:**
-   - Name your CV PDF file as `cv.pdf`
-   - Place it in the `public/` directory
-   - Ensure the file path matches the `cv` field in `data/about.json` (default is `/cv.pdf`)
+   - Don't edit `public/cv.pdf` directly — it's generated.
+   - Edit the content in `data/` and run `npm run cv`. See [CV: one source of truth](#-cv-one-source-of-truth).
 
 ## 🚢 Deployment
 
@@ -244,20 +283,25 @@ The website includes an error boundary component that gracefully handles unexpec
 
 ### publications.json
 
+One flat list; `status` is `published`, `in_review`, or `in_prep`. For unpublished
+work use `note` (e.g. `"In preparation."`) instead of `venue`.
+
 ```json
 {
-  "workingPapers": [
+  "publications": [
     {
       "id": "unique-id",
       "title": "Paper Title",
       "authors": ["Author 1", "Author 2"],
-      "venue": "Working Paper",
+      "status": "in_prep",
+      "note": "In preparation.",
+      "venue": "Journal Name",
+      "year": "2025",
       "abstract": "Abstract text",
       "pdf": "/papers/paper.pdf",
       "ssrn": "https://ssrn.com/abstract=XXXXX"
     }
-  ],
-  "publications": []
+  ]
 }
 ```
 
@@ -269,9 +313,47 @@ The website includes an error boundary component that gracefully handles unexpec
     "id": "unique-id",
     "course": "Course Name",
     "semester": "Fall 2024",
-    "role": "ta"
+    "role": "ta",
+    "location": "USTC"
   }
 ]
+```
+
+### education.json
+
+```json
+[
+  {
+    "id": "unique-id",
+    "degree": "PhD in ...",
+    "institution": "University Name",
+    "location": "City",
+    "date": "2024 - present",
+    "advisor": "Advisor Name"
+  }
+]
+```
+
+### cv.json
+
+CV-only sections (some also surface on the home page). Each list may be empty;
+empty sections are hidden on the site and printed as bare headings in the CV.
+
+```json
+{
+  "experience": [],
+  "awards": [],
+  "presentations": { "invited": [], "contributed": [] },
+  "mentoring": [],
+  "service": [
+    { "id": "id", "organization": "Org", "role": "Chair", "location": "", "date": "2022-2023" }
+  ],
+  "development": [
+    { "id": "id", "title": "Workshop Name", "year": "2025", "location": "STL" }
+  ],
+  "peerReview": [],
+  "memberships": []
+}
 ```
 
 ### news.json
