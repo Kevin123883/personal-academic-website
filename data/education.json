@@ -1,0 +1,17 @@
+[
+  {
+    "id": "wustl-phd",
+    "degree": "PhD in Supply Chain, Operations and Technology",
+    "institution": "Washington University in St. Louis",
+    "location": "St. Louis",
+    "date": "2024 - present",
+    "advisor": "Lingxiu Dong"
+  },
+  {
+    "id": "ustc-bs",
+    "degree": "BS in Statistics",
+    "institution": "University of Science and Technology of China",
+    "location": "Hefei, China",
+    "date": "2020 - 2024"
+  }
+]

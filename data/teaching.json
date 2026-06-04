@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "id": "complex-function",
+    "course": "Complex Function",
+    "semester": "2022 Fall",
+    "role": "ta",
+    "location": "USTC"
+  },
+  {
+    "id": "linear-algebra",
+    "course": "Linear Algebra",
+    "semester": "2023 Spring",
+    "role": "ta",
+    "location": "USTC"
+  },
+  {
+    "id": "microeconomics",
+    "course": "Microeconomics",
+    "semester": "2023 Fall",
+    "role": "ta",
+    "location": "USTC"
+  },
+  {
+    "id": "game-theory",
+    "course": "Game Theory",
+    "semester": "2024 Spring",
+    "role": "ta",
+    "location": "USTC"
+  }
+]

@@ -3,6 +3,7 @@
   "title": "PhD Candidate",
   "affiliation": "Washington University in St. Louis",
   "department": "Supply Chain, Operations & Technology (SCOT)",
+  "cvPosition": "PhD Student · Olin Business School",
   "bio": {
     "en": "I am a PhD candidate in Supply Chain, Operations & Technology at Washington University in St. Louis. My research interests include operations research, supply chain optimization, and data analytics.",
     "zh": "我是圣路易斯华盛顿大学供应链与运营技术专业的博士生。我的研究兴趣包括运筹学、供应链优化和数据分析。"
@@ -20,9 +21,10 @@
     ]
   },
   "email": "kaiwen.l@wustl.edu",
+  "phone": "+1 442-655-4836",
   "office": "Knight Hall, Room 401",
+  "homepage": "",
   "googleScholar": "",
   "linkedin": "https://www.linkedin.com/in/%E5%87%AF%E6%96%87-%E7%BD%97-354a14298/?locale=en_US",
   "cv": "/cv.pdf"
 }
-

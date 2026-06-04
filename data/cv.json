@@ -1,0 +1,28 @@
+{
+  "experience": [],
+  "awards": [],
+  "presentations": {
+    "invited": [],
+    "contributed": []
+  },
+  "mentoring": [],
+  "service": [
+    {
+      "id": "ustc-student-union",
+      "organization": "Undergraduate Student Union",
+      "role": "Chair",
+      "location": "",
+      "date": "2022-2023"
+    }
+  ],
+  "development": [
+    {
+      "id": "scf-workshop-2025",
+      "title": "Supply Chain Finance and Risk Management Workshop",
+      "year": "2025",
+      "location": "STL"
+    }
+  ],
+  "peerReview": [],
+  "memberships": []
+}

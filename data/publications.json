@@ -1,4 +1,11 @@
 {
-  "workingPapers": [],
-  "publications": []
+  "publications": [
+    {
+      "id": "agentic-shopping",
+      "title": "A Theory of Agentic Shopping",
+      "authors": ["Kaiwen Luo", "Lingxiu Dong", "Fasheng Xu"],
+      "status": "in_prep",
+      "note": "In preparation."
+    }
+  ]
 }
