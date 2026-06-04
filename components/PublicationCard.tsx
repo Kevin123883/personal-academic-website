@@ -57,6 +57,14 @@ export default function PublicationCard({
         </p>
       )}
 
+      {publication.highlight && (
+        <p className="mt-2.5">
+          <span className="inline-flex items-center rounded-full border border-accent/30 bg-accent/[0.06] px-3 py-1 text-xs font-medium text-accent">
+            {publication.highlight}
+          </span>
+        </p>
+      )}
+
       {/* Links + abstract toggle */}
       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
         {publication.pdf && (

@@ -60,6 +60,7 @@ function formatPublication(p) {
   if (p.venue) parts.push(`${tex(p.venue)}.`);
   if (p.year) parts.push(`${tex(p.year)}.`);
   if (p.note) parts.push(tex(p.note));
+  if (p.highlight) parts.push(`\\textbf{${tex(p.highlight)}.}`);
   return parts.join(' ');
 }
 
@@ -126,13 +127,19 @@ writeSection(
 
 // --- Professional Experience ------------------------------------------------
 
-const expRows = cv.experience.map(
-  (x) => `  \\cvskill\n    {${tex(x.date)}}\n    {${tex(x.position)}}\n    {${tex(x.organization)}}`
-);
+const expEntries = cv.experience.map((x) => {
+  const bullets = (x.notes ?? []).map(tex);
+  const desc = bullets.length
+    ? `\n      \\begin{cvitems}\n${bullets
+        .map((b) => `        \\item {${b}}`)
+        .join('\n')}\n      \\end{cvitems}\n    `
+    : '';
+  return `  \\cventry\n    {${tex(x.role)}}\n    {${tex(x.title)}}\n    {${tex(x.organization)}}\n    {${tex(x.date)}}\n    {${desc}}`;
+});
 writeSection(
   'professional.tex',
   `\\cvsection{Professional Experience}\n\n${
-    expRows.length ? `\\begin{cvskills}\n\n${expRows.join('\n\n')}\n\n\\end{cvskills}` : ''
+    expEntries.length ? `\\begin{cventries}\n\n${expEntries.join('\n\n')}\n\n\\end{cventries}` : ''
   }`
 );
 

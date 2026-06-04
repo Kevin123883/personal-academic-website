@@ -1,9 +1,60 @@
 {
-  "experience": [],
-  "awards": [],
+  "experience": [
+    {
+      "id": "potter-2025",
+      "title": "Data-Driven Warehouse Layout Optimization for Life-Saving Products",
+      "role": "PhD Lead",
+      "organization": "Potter Global Technologies",
+      "date": "2025 Fall",
+      "notes": ["Presented at the 2026 BCSCI Symposium."]
+    },
+    {
+      "id": "edward-jones-2026",
+      "title": "Data-Driven Development Funnel Capacity Analysis",
+      "role": "PhD Lead",
+      "organization": "Edward Jones",
+      "date": "2026 Spring",
+      "notes": ["Presented at the 2026 BCSCI Symposium."]
+    }
+  ],
+  "awards": [
+    {
+      "id": "potter-project-of-the-year",
+      "title": "Project of the Year Award",
+      "organization": "BCSCI Symposium",
+      "detail": "Potter Global Technologies",
+      "date": "2026"
+    },
+    {
+      "id": "edward-jones-best-presentation",
+      "title": "Best Presentation Award",
+      "organization": "BCSCI Symposium",
+      "detail": "Edward Jones",
+      "date": "2026"
+    }
+  ],
   "presentations": {
     "invited": [],
-    "contributed": []
+    "contributed": [
+      {
+        "id": "poms-2026",
+        "title": "The Economics of Agentic Commerce: Search, Complexity, and Discrimination",
+        "event": "POMS Annual Conference",
+        "date": "2026"
+      },
+      {
+        "id": "msom-tie-2026",
+        "title": "The Economics of Agentic Commerce: Search, Complexity, and Discrimination",
+        "event": "MSOM TIE SIG Conference",
+        "date": "2026"
+      },
+      {
+        "id": "informs-2026",
+        "title": "The Economics of Agentic Commerce: Search, Complexity, and Discrimination",
+        "event": "INFORMS Annual Meeting",
+        "date": "2026"
+      }
+    ]
   },
   "mentoring": [],
   "service": [

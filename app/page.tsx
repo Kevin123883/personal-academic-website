@@ -122,6 +122,38 @@ export default function Home() {
           </section>
         )}
 
+        {cv.experience.length > 0 && (
+          <section>
+            <h2 className="eyebrow mb-6">{t.home.experience}</h2>
+            <ul className="space-y-7">
+              {cv.experience.map((x) => (
+                <li
+                  key={x.id}
+                  className="border-t border-ink/[0.09] pt-7 first:border-t-0 first:pt-0"
+                >
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                    <h3 className="font-serif text-xl text-ink">{x.title}</h3>
+                    <span className="text-sm text-stone-500">
+                      {x.organization}
+                    </span>
+                  </div>
+                  <div className="mt-1 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                    <p className="text-stone-600">{x.role}</p>
+                    <span className="font-serif text-sm italic text-stone-500">
+                      {x.date}
+                    </span>
+                  </div>
+                  {x.notes?.map((note, i) => (
+                    <p key={i} className="mt-1.5 text-sm text-stone-500">
+                      {note}
+                    </p>
+                  ))}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {cv.awards.length > 0 && (
           <section>
             <h2 className="eyebrow mb-6">{t.home.awards}</h2>

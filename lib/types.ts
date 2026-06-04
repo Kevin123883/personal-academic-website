@@ -44,6 +44,8 @@ export interface Publication {
   status: PublicationStatus;
   /** Status note for unpublished work, e.g. "In preparation.". */
   note?: string;
+  /** A distinction to spotlight, e.g. "Accepted, 2026 MSOM TIE SIG Conference". */
+  highlight?: string;
   abstract?: string;
   pdf?: string;
   ssrn?: string;
@@ -83,9 +85,13 @@ export interface NewsItem {
 
 export interface ExperienceEntry {
   id: string;
-  date: string;
-  position: string;
+  /** Project / engagement name. */
+  title: string;
+  /** Your role, e.g. "PhD Lead". */
+  role: string;
   organization: string;
+  date: string;
+  notes?: string[];
 }
 
 export interface Award {
