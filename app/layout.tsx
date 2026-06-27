@@ -3,6 +3,7 @@ import { Inter, Newsreader } from "next/font/google";
 import "./globals.css";
 import AppWrapper from "@/components/AppWrapper";
 import aboutData from "@/data/about.json";
+import { siteUrl } from "@/lib/site";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,44 +18,107 @@ const newsreader = Newsreader({
   style: ["normal", "italic"],
 });
 
-// Set NEXT_PUBLIC_SITE_URL in your deployment (e.g. Vercel env vars) to your
-// real domain. Falls back to a sensible default so nothing breaks locally.
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://kaiwenluo.me";
+// Public-facing SEO identity. These strings are intentionally separate from
+// data/about.json (which drives the visible UI and the CV PDF): they are the
+// search-optimized title/description/keywords Google should index for, and the
+// canonical scholarly framing used in the JSON-LD below.
+const SITE_TITLE =
+  "Kaiwen Luo | PhD Student in Operations Management | Washington University in St. Louis";
+const SITE_DESCRIPTION =
+  "Kaiwen Luo is a PhD student in Operations Management at Washington University in St. Louis. His research focuses on AI-mediated markets, digital platforms, credible exchange, artificial intelligence, and supply chain management.";
+const SITE_KEYWORDS = [
+  "Kaiwen Luo",
+  "Operations Management",
+  "Washington University",
+  "WashU",
+  "AI",
+  "Digital Platforms",
+  "Supply Chain",
+  "Operations Research",
+  "Economics",
+  "Agentic Commerce",
+  "Marketplace Design",
+  "PhD",
+];
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${aboutData.name} - ${aboutData.title}`,
+    default: SITE_TITLE,
     template: `%s | ${aboutData.name}`,
   },
-  description: aboutData.bio.en,
-  keywords: [
-    aboutData.name,
-    aboutData.department,
-    aboutData.affiliation,
-    ...aboutData.researchInterests.en,
-  ],
-  authors: [{ name: aboutData.name }],
+  description: SITE_DESCRIPTION,
+  keywords: SITE_KEYWORDS,
+  authors: [{ name: aboutData.name, url: siteUrl }],
   creator: aboutData.name,
+  publisher: aboutData.name,
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     alternateLocale: "zh_CN",
-    siteName: `${aboutData.name} - Academic Website`,
-    title: `${aboutData.name} - ${aboutData.title}`,
-    description: aboutData.bio.en,
+    siteName: `${aboutData.name} — Academic Website`,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     url: siteUrl,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${aboutData.name} - ${aboutData.title}`,
-    description: aboutData.bio.en,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
-  alternates: {
-    canonical: siteUrl,
+};
+
+// Schema.org Person (JSON-LD). Helps Google build a Knowledge Graph entity for
+// Kaiwen. `sameAs` only lists profile URLs that actually exist in the project
+// (empty values in about.json are filtered out), per best practice.
+const sameAs = [
+  aboutData.googleScholar,
+  aboutData.linkedin,
+  aboutData.homepage,
+].filter((url): url is string => Boolean(url) && url !== siteUrl);
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: aboutData.name,
+  url: siteUrl,
+  image: `${siteUrl}/images/avatar.png`,
+  jobTitle: "PhD Student",
+  email: `mailto:${aboutData.email}`,
+  worksFor: {
+    "@type": "CollegeOrUniversity",
+    name: "Washington University in St. Louis",
   },
+  affiliation: {
+    "@type": "EducationalOrganization",
+    name: "Olin Business School",
+    parentOrganization: {
+      "@type": "CollegeOrUniversity",
+      name: "Washington University in St. Louis",
+    },
+  },
+  knowsAbout: [
+    "AI-mediated Markets",
+    "Digital Platforms",
+    "Operations Management",
+    "Supply Chain",
+    "Market Design",
+  ],
+  ...(sameAs.length > 0 ? { sameAs } : {}),
 };
 
 // Runs before first paint to set the theme class, preventing a light-mode
@@ -76,6 +140,10 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="font-sans antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
         <AppWrapper>{children}</AppWrapper>
       </body>
     </html>
