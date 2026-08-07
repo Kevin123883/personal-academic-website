@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/jpeg" href="/images/avatar.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kaiwen Luo — Supply Chain, Operations &amp; Technology</title>
+    <meta
+      name="description"
+      content="Kaiwen Luo, PhD candidate in Supply Chain, Operations & Technology at Washington University in St. Louis. Modeling and empirical research on how AI reshapes e-commerce platforms, organizations, and markets."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@300..700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // set theme before first paint to avoid flash
+      try {
+        var t = localStorage.getItem('kl-theme')
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.setAttribute('data-theme', t)
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -30,6 +30,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# portfolio (React+Vite app)
+portfolio/node_modules/
+portfolio/dist/
+
 # local tooling / preview config
 .claude/
 dev.log
