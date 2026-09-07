@@ -1,6 +1,6 @@
 // Structural facts come from the repo-wide single source in ../data,
 // mirrored into src/data by scripts/sync-data.mjs before dev/build.
-// Positioning copy specific to the portfolio lives here so the CV stays untouched.
+// Positioning copy specific to the site lives here so the CV stays untouched.
 import about from './data/about.json'
 import education from './data/education.json'
 import cv from './data/cv.json'
@@ -11,95 +11,79 @@ export const person = {
   name: about.name,
   title: about.title,
   affiliation: about.affiliation,
+  school: 'Olin Business School',
   department: about.department,
+  field: 'Operations Management',
   email: about.email,
-  phone: about.phone,
   office: about.office,
   linkedin: about.linkedin,
   cvUrl: '/cv.pdf',
   avatar: '/images/avatar.jpg',
 }
 
+export const nav = [
+  { href: '#research', label: 'Research' },
+  { href: '#writing', label: 'Writing' },
+  { href: '#teaching', label: 'Teaching' },
+  { href: '#about', label: 'About' },
+  { href: '#contact', label: 'Contact' },
+]
+
 export const hero = {
-  eyebrow: 'PhD Candidate · Supply Chain, Operations & Technology',
-  headline: ['Modeling how AI', 'reshapes what we built —', 'platforms, firms, and beyond.'],
-  sub: 'The pre-AI world designed its institutions for humans: e-commerce platforms, organizational structures, market mechanisms. I study how AI rewrites their operating logic — through analytical modeling and empirical evidence.',
+  eyebrow: 'PhD Candidate',
+  statement:
+    'I study how AI reshapes the institutions the pre-AI world designed for humans: e-commerce platforms, organizational structures, market mechanisms. Analytical modeling, disciplined by empirical work on real operational data.',
 }
 
 export const aboutSection = {
   intro: [
     'I am a PhD candidate in Supply Chain, Operations & Technology at Olin Business School, Washington University in St. Louis, advised by Lingxiu Dong.',
-    'My research asks a simple question with complicated answers: when AI can search, decide, and coordinate, what happens to everything the pre-AI era built — e-commerce platforms, firm and organizational structures, market institutions? Agentic commerce is my current entry point, but the question runs wider. I approach it with economic modeling, disciplined by empirical work on real operational data.',
+    'My research asks a simple question with complicated answers: when AI can search, decide, and coordinate, what happens to everything the pre-AI era built for humans, from e-commerce platforms to firm structures and market institutions? Agentic commerce is my current entry point, but the question runs wider. I approach it with economic modeling, and I keep the models honest with empirical work on real operational data.',
     'Before WashU, I earned a B.S. in Statistics from the University of Science and Technology of China.',
   ],
 }
 
 export const educationList = education
+export const awards = cv.awards
+export const talks = cv.presentations.contributed
+export const teachingList = teaching
+export const papers = publications.publications
 
-export const projects = [
+const paper = publications.publications[0]
+const [mainTitle, subTitle] = paper.title.split(': ')
+
+export const research = [
   {
-    id: 'agentic-commerce',
+    id: paper.id,
     index: '01',
-    kind: 'Research · Under Review',
-    title: publications.publications[0].title,
-    org: 'with Lingxiu Dong & Fasheng Xu',
-    date: '2025 — present',
-    art: 'agentic',
-    link: { href: publications.publications[0].ssrn, label: 'Read the paper on SSRN' },
-    tags: ['Economic modeling', 'Platform economics', 'AI agents'],
+    kind: 'Working paper',
+    title: mainTitle,
+    subtitle: subTitle,
     description:
-      'When consumers delegate shopping to AI agents, the interface of commerce shifts: instead of searching over products, people articulate preferences. This paper builds an economic model of agentic commerce to trace what that shift does to search frictions, product complexity, and price discrimination — and how platforms should redesign themselves.',
-    highlight: 'Under review at Management Science · Accepted — 2026 MSOM TIE SIG Conference · presented at POMS & INFORMS 2026',
+      'When consumers delegate shopping to AI agents, the interface of commerce shifts: instead of searching over products, people articulate preferences. The paper builds an economic model of agentic commerce to trace what that shift does to search frictions, product complexity, and price discrimination, and how platforms should redesign themselves in response.',
+    coauthors: 'with Lingxiu Dong and Fasheng Xu',
+    status: paper.note.replace(/\.$/, ''),
+    venues: 'MSOM TIE SIG 2026 · POMS 2026 · INFORMS 2026',
+    link: { href: paper.ssrn, label: 'Paper on SSRN' },
   },
   {
     id: 'potter-warehouse',
     index: '02',
-    kind: 'Industry Project · Potter Global Technologies',
+    kind: 'Applied project',
     title: 'Data-Driven Warehouse Layout Optimization for Life-Saving Products',
-    org: 'PhD Lead · Boeing Center (BCSCI)',
-    date: '2025 Fall',
-    art: 'warehouse',
-    tags: ['Optimization', 'Warehouse operations', 'Field data'],
     description:
-      'Led the redesign of a fire-safety manufacturer’s warehouse layout, turning SKU-level movement data into a slotting optimization that shortens pick paths for products where minutes matter.',
-    highlight: 'Project of the Year Award — 2026 BCSCI Symposium',
+      'Redesign of a fire-safety manufacturer’s warehouse layout, turning SKU-level movement data into a slotting optimization that shortens pick paths for products where minutes matter.',
+    coauthors: 'PhD lead · Potter Global Technologies · Boeing Center for Supply Chain Innovation',
+    status: 'Project of the Year, 2026 BCSCI Symposium',
   },
   {
     id: 'edward-jones-funnel',
     index: '03',
-    kind: 'Industry Project · Edward Jones',
+    kind: 'Applied project',
     title: 'Data-Driven Development Funnel Capacity Analysis',
-    org: 'PhD Lead · Boeing Center (BCSCI)',
-    date: '2026 Spring',
-    art: 'funnel',
-    tags: ['Capacity analysis', 'Stochastic modeling', 'People analytics'],
     description:
-      'Modeled the advisor-development pipeline of a Fortune 500 financial firm as a capacitated flow, quantifying where the funnel leaks and how staffing policy reshapes throughput.',
-    highlight: 'Best Presentation Award — 2026 BCSCI Symposium',
+      'The advisor-development pipeline of a Fortune 500 financial firm, modeled as a capacitated flow to quantify where the funnel leaks and how staffing policy reshapes throughput.',
+    coauthors: 'PhD lead · Edward Jones · Boeing Center for Supply Chain Innovation',
+    status: 'Best Presentation, 2026 BCSCI Symposium',
   },
 ]
-
-export const strengths = [
-  {
-    id: 'modeling',
-    label: 'Analytical Modeling',
-    text: 'Microeconomic and stochastic models — built to isolate the mechanism, not decorate it. Formal training in economics and statistics underpins every model I write.',
-  },
-  {
-    id: 'empirics',
-    label: 'Empirical Methods',
-    text: 'A statistics degree underneath every regression. Econometrics and data analytics on real operational data, from SKU movements to development funnels.',
-  },
-  {
-    id: 'industry',
-    label: 'Industry Translation',
-    text: 'Two award-winning engagements with Potter Global Technologies and Edward Jones — research questions sourced from, and answers returned to, practice.',
-  },
-  {
-    id: 'teaching',
-    label: 'Teaching & Communication',
-    text: `${teaching.length} courses taught across WashU and USTC — from Prescriptive Analytics to Linear Algebra. Complex ideas, delivered plainly.`,
-  },
-]
-
-export const scot = cv // exported for future sections (awards, talks)

@@ -1,288 +1,181 @@
-import { useEffect, useRef, useState } from 'react'
-import HeroCanvas from './HeroCanvas.jsx'
-import ProjectArt from './ProjectArt.jsx'
-import { person, hero, aboutSection, educationList, projects, strengths } from './content.js'
-
-function useTheme() {
-  const [theme, setTheme] = useState(
-    () => document.documentElement.getAttribute('data-theme') || 'dark',
-  )
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-    try {
-      localStorage.setItem('kl-theme', theme)
-    } catch {}
-  }, [theme])
-  return [theme, () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))]
-}
-
-function Reveal({ children, className = '', as: Tag = 'div' }) {
-  const ref = useRef(null)
-  useEffect(() => {
-    const el = ref.current
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            e.target.classList.add('is-visible')
-            io.unobserve(e.target)
-          }
-        }
-      },
-      { threshold: 0.12 },
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-  return (
-    <Tag ref={ref} className={`reveal ${className}`}>
-      {children}
-    </Tag>
-  )
-}
-
-function Nav({ theme, toggleTheme }) {
-  const [scrolled, setScrolled] = useState(false)
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-  return (
-    <header className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
-      <div className="shell nav-inner">
-        <a href="#top" className="nav-brand">
-          Kaiwen&nbsp;Luo<span className="nav-brand-dot">.</span>
-        </a>
-        <nav className="nav-links" aria-label="Sections">
-          <a href="#about">About</a>
-          <a href="#projects">Projects</a>
-          <a href="#strengths">Strengths</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <div className="nav-actions">
-          <button
-            className="theme-toggle"
-            onClick={toggleTheme}
-            aria-label={theme === 'dark' ? 'Switch to day mode' : 'Switch to night mode'}
-            title={theme === 'dark' ? 'Day mode' : 'Night mode'}
-          >
-            {theme === 'dark' ? (
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <circle cx="12" cy="12" r="4.2" />
-                <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19" />
-              </svg>
-            ) : (
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <path d="M20 13.5A8.2 8.2 0 0 1 10.5 4 8.2 8.2 0 1 0 20 13.5Z" />
-              </svg>
-            )}
-          </button>
-          <a className="btn btn-small" href={`mailto:${person.email}`}>
-            Get in touch
-          </a>
-        </div>
-      </div>
-    </header>
-  )
-}
+import MinimalNav from './components/MinimalNav.jsx'
+import HeroLandscape, { LandscapeFragment } from './components/HeroLandscape.jsx'
+import SectionHeading from './components/SectionHeading.jsx'
+import ResearchItem from './components/ResearchItem.jsx'
+import Reveal from './components/Reveal.jsx'
+import {
+  person,
+  hero,
+  aboutSection,
+  educationList,
+  research,
+  papers,
+  talks,
+  teachingList,
+  awards,
+} from './content.js'
 
 function Hero() {
-  const [videoOk, setVideoOk] = useState(true)
   return (
     <section className="hero" id="top">
-      <div className="hero-bg" aria-hidden="true">
-        <HeroCanvas />
-        {videoOk && (
-          <video
-            className="hero-video"
-            autoPlay
-            muted
-            loop
-            playsInline
-            onError={() => setVideoOk(false)}
-          >
-            <source src="/hero.mp4" type="video/mp4" />
-          </video>
-        )}
-        <div className="hero-veil" />
+      <div className="hero-inner">
+        <div className="hero-text">
+          <p className="label hero-eyebrow">
+            {hero.eyebrow} · {person.field}
+          </p>
+          <h1 className="hero-name">{person.name}</h1>
+          <p className="hero-affiliation">
+            {person.school}
+            <br />
+            {person.affiliation}
+          </p>
+          <p className="hero-statement">{hero.statement}</p>
+          <p className="hero-links">
+            <a className="link" href="#research">
+              Research
+            </a>
+            <a className="link" href={person.cvUrl} target="_blank" rel="noreferrer">
+              Curriculum vitae
+            </a>
+            <a className="link" href={`mailto:${person.email}`}>
+              Email
+            </a>
+          </p>
+          </div>
       </div>
-      <div className="shell hero-inner">
-        <p className="eyebrow hero-eyebrow">{hero.eyebrow}</p>
-        <h1 className="hero-title">
-          {hero.headline.map((line, i) => (
-            <span key={i} className="hero-line" style={{ '--d': `${0.12 + i * 0.12}s` }}>
-              {line}
-            </span>
-          ))}
-        </h1>
-        <p className="hero-sub">{hero.sub}</p>
-        <div className="hero-cta">
-          <a className="btn btn-primary" href={`mailto:${person.email}`}>
-            Get in touch
-          </a>
-          <a className="btn btn-ghost" href="#projects">
-            Selected work ↓
-          </a>
-        </div>
-        <div className="hero-foot">
-          <span>{person.affiliation}</span>
-          <span className="hero-foot-sep" />
-          <span>Olin Business School</span>
-        </div>
-      </div>
-      <a href="#about" className="scroll-cue" aria-label="Scroll to About">
-        <span />
-      </a>
+      <HeroLandscape />
     </section>
   )
 }
 
-function SectionHead({ index, title, note }) {
+function Research() {
   return (
-    <Reveal className="section-head">
-      <p className="eyebrow">
-        {index} — {title}
-      </p>
-      {note && <p className="section-note">{note}</p>}
-    </Reveal>
+    <section id="research" className="section section--research">
+      <SectionHeading
+        label="Research"
+        lead="How AI rewrites the operating logic of platforms, firms, and markets."
+      />
+      <div className="research-list">
+        {research.map((item) => (
+          <ResearchItem key={item.id} item={item} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+const statusText = {
+  in_review: 'Under review',
+  working: 'Working paper',
+  published: 'Published',
+}
+
+function Writing() {
+  return (
+    <section id="writing" className="section section--writing">
+      <SectionHeading label="Writing" />
+      <div className="writing-body">
+        <Reveal>
+          <ol className="paper-list">
+            {papers.map((p) => (
+              <li key={p.id} className="paper">
+                <p className="paper-title">
+                  {p.ssrn ? (
+                    <a className="link link--quiet" href={p.ssrn} target="_blank" rel="noreferrer">
+                      {p.title}
+                    </a>
+                  ) : (
+                    p.title
+                  )}
+                </p>
+                <p className="paper-authors">{p.authors.join(', ')}</p>
+                <p className="paper-note">
+                  {(p.note || statusText[p.status] || '').replace(/\.$/, '')}
+                  {p.highlight ? ` · ${p.highlight}` : ''}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </Reveal>
+        {talks.length > 0 && (
+          <Reveal className="talks">
+            <p className="label">Talks</p>
+            <ul className="talk-list">
+              {talks.map((t) => (
+                <li key={t.id}>
+                  <span className="talk-event">{t.event}</span>
+                  <span className="talk-date">{t.date}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        )}
+      </div>
+    </section>
+  )
+}
+
+function Teaching() {
+  return (
+    <section id="teaching" className="section section--teaching">
+      <SectionHeading label="Teaching" lead="Teaching assistant, WashU and USTC." />
+      <Reveal>
+        <ul className="course-list">
+          {teachingList.map((c) => (
+            <li key={c.id} className="course">
+              <span className="course-when">{c.semester}</span>
+              <span className="course-name">{c.course}</span>
+              <span className="course-where">{c.location}</span>
+            </li>
+          ))}
+        </ul>
+      </Reveal>
+    </section>
   )
 }
 
 function About() {
   return (
-    <section id="about" className="section">
-      <div className="shell">
-        <SectionHead index="01" title="About" />
-        <div className="about-grid">
-          <Reveal className="about-card">
-            <div className="avatar-frame">
-              <img src={person.avatar} alt={`Portrait of ${person.name}`} />
-            </div>
-            <div className="about-card-body">
-              <h3 className="about-name">{person.name}</h3>
-              <p className="about-role">
-                {person.title} · {person.department}
-              </p>
-              <ul className="contact-list">
-                <li>
-                  <span className="contact-label">Email</span>
-                  <a href={`mailto:${person.email}`}>{person.email}</a>
-                </li>
-                <li>
-                  <span className="contact-label">Office</span>
-                  <span>{person.office}, Olin Business School</span>
-                </li>
-                <li>
-                  <span className="contact-label">LinkedIn</span>
-                  <a href={person.linkedin} target="_blank" rel="noreferrer">
-                    in/kaiwen-luo
-                  </a>
-                </li>
-                <li>
-                  <span className="contact-label">CV</span>
-                  <a href={person.cvUrl} target="_blank" rel="noreferrer">
-                    Download PDF
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </Reveal>
-          <div className="about-main">
-            <Reveal>
-              <h2 className="section-title">
-                The world we inherited was designed for humans.
-                <em> AI changes the design brief.</em>
-              </h2>
-              {aboutSection.intro.map((p, i) => (
-                <p key={i} className="body-text">
-                  {p}
-                </p>
-              ))}
-            </Reveal>
-            <Reveal className="edu-block">
-              <p className="eyebrow eyebrow-tight">Education</p>
-              <ol className="edu-list">
-                {educationList.map((e) => (
-                  <li key={e.id} className="edu-item">
-                    <span className="edu-date">{e.date}</span>
-                    <span className="edu-degree">
-                      {e.degree}
-                      {e.advisor ? <span className="edu-advisor"> · Advisor: {e.advisor}</span> : null}
-                    </span>
-                    <span className="edu-school">
-                      {e.institution}, {e.location}
+    <section id="about" className="section section--about">
+      <SectionHeading label="About" />
+      <div className="about-body">
+        <Reveal className="about-text">
+          {aboutSection.intro.map((p, i) => (
+            <p key={i} className="prose">
+              {p}
+            </p>
+          ))}
+        </Reveal>
+        <Reveal className="about-aside">
+          <img className="portrait" src={person.avatar} alt={`Portrait of ${person.name}`} width="220" height="220" loading="lazy" />
+          <p className="label">Education</p>
+          <ul className="edu-list">
+            {educationList.map((e) => (
+              <li key={e.id}>
+                <span className="edu-degree">{e.degree}</span>
+                <span className="edu-school">
+                  {e.institution}, {e.date}
+                </span>
+                {e.advisor && <span className="edu-advisor">Advisor: {e.advisor}</span>}
+              </li>
+            ))}
+          </ul>
+          {awards.length > 0 && (
+            <>
+              <p className="label">Awards</p>
+              <ul className="award-list">
+                {awards.map((a) => (
+                  <li key={a.id}>
+                    <span className="award-title">{a.title}</span>
+                    <span className="award-detail">
+                      {a.organization} {a.date} · {a.detail}
                     </span>
                   </li>
                 ))}
-              </ol>
-            </Reveal>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Projects() {
-  return (
-    <section id="projects" className="section section-alt">
-      <div className="shell">
-        <SectionHead
-          index="02"
-          title="Selected Work"
-          note="One working paper and two award-winning industry engagements."
-        />
-        <div className="project-stack">
-          {projects.map((p, i) => (
-            <Reveal key={p.id} className={`project-card ${i % 2 ? 'project-card--flip' : ''}`} as="article">
-              <div className="project-art">
-                <ProjectArt kind={p.art} />
-              </div>
-              <div className="project-body">
-                <p className="eyebrow eyebrow-tight">
-                  {p.index} · {p.kind}
-                </p>
-                <h3 className="project-title">{p.title}</h3>
-                <p className="project-meta">
-                  {p.org} · {p.date}
-                </p>
-                <p className="body-text">{p.description}</p>
-                {p.highlight && <p className="project-highlight">{p.highlight}</p>}
-                <ul className="tag-row">
-                  {p.tags.map((t) => (
-                    <li key={t}>{t}</li>
-                  ))}
-                </ul>
-                {p.link && (
-                  <a className="project-link" href={p.link.href} target="_blank" rel="noreferrer">
-                    {p.link.label} ↗
-                  </a>
-                )}
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Strengths() {
-  return (
-    <section id="strengths" className="section">
-      <div className="shell">
-        <SectionHead index="03" title="What I Bring" />
-        <div className="strength-grid">
-          {strengths.map((s, i) => (
-            <Reveal key={s.id} className="strength-card">
-              <span className="strength-index">{String(i + 1).padStart(2, '0')}</span>
-              <h3 className="strength-label">{s.label}</h3>
-              <p className="body-text">{s.text}</p>
-            </Reveal>
-          ))}
-        </div>
+              </ul>
+            </>
+          )}
+        </Reveal>
       </div>
     </section>
   )
@@ -290,54 +183,57 @@ function Strengths() {
 
 function Contact() {
   return (
-    <section id="contact" className="contact">
-      <div className="shell contact-inner">
-        <Reveal>
-          <p className="eyebrow">04 — Contact</p>
-          <h2 className="contact-title">
-            Let’s talk about platforms,
-            <br />
-            agents, and operations.
-          </h2>
-          <a className="contact-email" href={`mailto:${person.email}`}>
-            {person.email}
+    <section id="contact" className="section section--contact">
+      <SectionHeading label="Contact" />
+      <LandscapeFragment />
+      <Reveal className="contact-body">
+        <a className="contact-email" href={`mailto:${person.email}`}>
+          {person.email}
+        </a>
+        <p className="contact-address">
+          {person.office}, {person.school}
+          <br />
+          {person.affiliation}
+        </p>
+        <p className="contact-links">
+          <a className="link" href={person.linkedin} target="_blank" rel="noreferrer">
+            LinkedIn
           </a>
-          <div className="contact-links">
-            <a href={person.linkedin} target="_blank" rel="noreferrer">
-              LinkedIn ↗
-            </a>
-            <a href={person.cvUrl} target="_blank" rel="noreferrer">
-              Curriculum Vitae ↗
-            </a>
-            <span>{person.office} · St. Louis, MO</span>
-          </div>
-        </Reveal>
-      </div>
-      <footer className="footer">
-        <div className="shell footer-inner">
-          <span>
-            © {new Date().getFullYear()} {person.name}
-          </span>
-          <span>Washington University in St. Louis</span>
-          <a href="#top">Back to top ↑</a>
-        </div>
-      </footer>
+          <a className="link" href={person.cvUrl} target="_blank" rel="noreferrer">
+            Curriculum vitae
+          </a>
+        </p>
+      </Reveal>
     </section>
   )
 }
 
+function Footer() {
+  return (
+    <footer className="footer">
+      <span>
+        © {new Date().getFullYear()} {person.name}
+      </span>
+      <a className="link link--quiet" href="#top">
+        Top
+      </a>
+    </footer>
+  )
+}
+
 export default function App() {
-  const [theme, toggleTheme] = useTheme()
   return (
     <>
-      <Nav theme={theme} toggleTheme={toggleTheme} />
+      <MinimalNav />
       <main>
         <Hero />
+        <Research />
+        <Writing />
+        <Teaching />
         <About />
-        <Projects />
-        <Strengths />
+        <Contact />
       </main>
-      <Contact />
+      <Footer />
     </>
   )
 }
