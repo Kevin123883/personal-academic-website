@@ -5,6 +5,20 @@
     <link rel="icon" type="image/jpeg" href="/images/avatar.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#F5F2EA" />
+    <script>
+      // Set day/night before first paint: the reader's saved choice, else the system's.
+      ;(function () {
+        var t = null
+        try {
+          t = localStorage.getItem('theme')
+        } catch (e) {}
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+        document.documentElement.dataset.theme = t
+        if (t === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#151716')
+      })()
+    </script>
     <title>Kaiwen Luo — Operations Management, Washington University in St. Louis</title>
     <meta
       name="description"
