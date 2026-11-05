@@ -26,6 +26,7 @@ export const nav = [
   { href: '#writing', label: 'Writing' },
   { href: '#teaching', label: 'Teaching' },
   { href: '#about', label: 'About' },
+  { href: '#misc', label: 'Misc.' },
   { href: '#contact', label: 'Contact' },
 ]
 
@@ -42,6 +43,25 @@ export const aboutSection = {
     'Before WashU, I earned a B.S. in Statistics from the University of Science and Technology of China.',
   ],
 }
+
+// Miscellaneous: things outside research. Photos live in public/images/photography;
+// add a `caption` (place, year) to show a line under a photo.
+export const photography = [
+  {
+    id: 'golden-hour',
+    src: '/images/photography/golden-hour.webp',
+    width: 1024,
+    height: 1536,
+    alt: 'A cream apartment tower with a spire, lit gold at dusk, a half moon over the roofline',
+  },
+  {
+    id: 'harbor-light',
+    src: '/images/photography/harbor-light.webp',
+    width: 1536,
+    height: 1024,
+    alt: 'Light breaking through storm clouds over green mountains, a bay, and a coastal city',
+  },
+]
 
 export const educationList = education
 export const awards = cv.awards
