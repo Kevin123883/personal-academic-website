@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import MinimalNav from './components/MinimalNav.jsx'
 import HeroLandscape, { LandscapeFragment } from './components/HeroLandscape.jsx'
 import SectionHeading from './components/SectionHeading.jsx'
@@ -13,6 +14,7 @@ import {
   talks,
   teachingList,
   awards,
+  photography,
 } from './content.js'
 
 function Hero() {
@@ -181,6 +183,38 @@ function About() {
   )
 }
 
+function Miscellaneous() {
+  const dialogRef = useRef(null)
+  const [open, setOpen] = useState(null)
+  const show = (photo) => {
+    setOpen(photo)
+    dialogRef.current?.showModal()
+  }
+  return (
+    <section id="misc" className="section section--misc">
+      <SectionHeading label="Miscellaneous" lead="Away from the models." />
+      <div className="misc-body">
+        <Reveal>
+          <p className="label">Photography</p>
+          <div className="photo-grid">
+            {photography.map((p) => (
+              <figure key={p.id} className="photo" style={{ '--ar': p.width / p.height }}>
+                <button type="button" className="photo-open" onClick={() => show(p)} aria-label={`View larger: ${p.alt}`}>
+                  <img src={p.src} alt={p.alt} width={p.width} height={p.height} loading="lazy" decoding="async" />
+                </button>
+                {p.caption && <figcaption className="photo-caption">{p.caption}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        </Reveal>
+        <dialog ref={dialogRef} className="lightbox" onClick={() => dialogRef.current.close()} onClose={() => setOpen(null)}>
+          {open && <img src={open.src} alt={open.alt} width={open.width} height={open.height} />}
+        </dialog>
+      </div>
+    </section>
+  )
+}
+
 function Contact() {
   return (
     <section id="contact" className="section section--contact">
@@ -231,6 +265,7 @@ export default function App() {
         <Writing />
         <Teaching />
         <About />
+        <Miscellaneous />
         <Contact />
       </main>
       <Footer />
