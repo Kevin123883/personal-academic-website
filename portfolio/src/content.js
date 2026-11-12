@@ -61,6 +61,14 @@ export const photography = [
     height: 1024,
     alt: 'Light breaking through storm clouds over green mountains, a bay, and a coastal city',
   },
+  {
+    id: 'san-diego-beach',
+    src: '/images/photography/san-diego-beach.webp',
+    width: 1449,
+    height: 1086,
+    alt: 'Two people and a white Labrador on a pebble beach at dusk, waves rolling in under streaked clouds',
+    caption: 'San Diego, December 2024',
+  },
 ]
 
 export const educationList = education
