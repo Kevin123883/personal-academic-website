@@ -53,6 +53,7 @@ export const photography = [
     width: 1024,
     height: 1536,
     alt: 'A cream apartment tower with a spire, lit gold at dusk, a half moon over the roofline',
+    caption: 'Photo by a friend; color edit mine',
   },
   {
     id: 'harbor-light',
