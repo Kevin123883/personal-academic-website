@@ -703,7 +703,7 @@ main {
 }
 
 .photo {
-  flex: var(--ar) 1 calc(var(--ar) * 240px);
+  flex: var(--ar) 1 calc(var(--ar) * 280px);
   min-width: 0;
 }
 
