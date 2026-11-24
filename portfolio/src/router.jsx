@@ -40,10 +40,13 @@ export function Link({ to, onClick, ...rest }) {
   return <a href={to} onClick={handle} {...rest} />
 }
 
-// Old single-page links (kaiwenluo.me/#research) land on the matching page.
-export function redirectLegacyHash(paths) {
+// Old links land on the right page: single-page anchors (kaiwenluo.me/#research)
+// and retired paths listed in `aliases` (e.g. { '/writing': '/research' }).
+export function redirectLegacy(paths, aliases = {}) {
   const hash = window.location.hash.slice(1)
-  if (window.location.pathname === '/' && hash && paths.includes(`/${hash}`)) {
-    window.history.replaceState(null, '', `/${hash}`)
+  let target = window.location.pathname === '/' && hash ? `/${hash}` : currentPath()
+  target = aliases[target] ?? target
+  if (target !== window.location.pathname && paths.includes(target)) {
+    window.history.replaceState(null, '', target)
   }
 }

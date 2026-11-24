@@ -544,66 +544,6 @@ main {
   color: var(--ink-2);
 }
 
-/* ---------- writing: leans right, a quieter cluster ---------- */
-.section > .writing-body {
-  grid-column: 2 / 4;
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
-  column-gap: var(--gutter);
-  align-items: start;
-}
-
-.paper-list {
-  max-width: var(--measure);
-}
-
-.paper + .paper {
-  margin-top: 40px;
-}
-
-.paper-title {
-  font-family: var(--font-serif);
-  font-size: clamp(20px, 1.6vw, 24px);
-  line-height: 1.35;
-}
-
-.paper-authors {
-  margin-top: 8px;
-  font-size: 14.5px;
-  color: var(--ink-2);
-}
-
-.paper-note {
-  margin-top: 6px;
-  font-size: 13.5px;
-  color: var(--ink-2);
-}
-
-.talks {
-  padding-top: 6px;
-}
-
-.talk-list {
-  margin-top: 18px;
-  display: grid;
-  gap: 10px;
-  font-size: 14px;
-  color: var(--ink-2);
-}
-
-.talk-list li {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--line);
-}
-
-.talk-date {
-  color: var(--ink-2);
-  font-variant-numeric: tabular-nums;
-}
-
 /* ---------- teaching: a plain register ---------- */
 .course-list {
   border-top: 1px solid var(--line);
@@ -916,7 +856,6 @@ main.page:focus {
     margin-left: clamp(0px, 10vw, 140px);
   }
 
-  .section > .writing-body,
   .section > .about-body {
     grid-template-columns: minmax(0, 1fr);
     row-gap: 56px;
