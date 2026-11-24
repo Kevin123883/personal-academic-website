@@ -162,7 +162,16 @@ writeSection('education.tex', rSection('Education', join(...eduEntries)));
 
 writeSection(
   'interests.tex',
-  rSection('Research Interests', (about.researchInterests?.en ?? []).map(tex).join(', '))
+  rSection(
+    'Research Interests',
+    // Ragged-right so a wrapped list doesn't get stretched word gaps, and
+    // ~ keeps each multi-word interest on one line.
+    (about.researchInterests?.en ?? []).length
+      ? `{\\raggedright ${about.researchInterests.en
+          .map((i) => tex(i).replace(/ /g, '~'))
+          .join(', ')}\\par}`
+      : ''
+  )
 );
 
 // --- Professional experience ------------------------------------------------
