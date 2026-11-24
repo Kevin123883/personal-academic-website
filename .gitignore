@@ -55,6 +55,7 @@ CV/*.synctex.gz
 # Auto-generated CV section files (regenerated from data/ by build-cv.mjs)
 CV/cv/_personal.tex
 CV/cv/education.tex
+CV/cv/interests.tex
 CV/cv/professional.tex
 CV/cv/publications.tex
 CV/cv/honors.tex
