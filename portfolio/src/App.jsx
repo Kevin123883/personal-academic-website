@@ -1,5 +1,6 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import MinimalNav from './components/MinimalNav.jsx'
+import { Link, usePath, redirectLegacyHash } from './router.jsx'
 import HeroLandscape, { LandscapeFragment } from './components/HeroLandscape.jsx'
 import SectionHeading from './components/SectionHeading.jsx'
 import ResearchItem from './components/ResearchItem.jsx'
@@ -15,6 +16,7 @@ import {
   teachingList,
   awards,
   photography,
+  nav,
 } from './content.js'
 
 function Hero() {
@@ -33,9 +35,9 @@ function Hero() {
           </p>
           <p className="hero-statement">{hero.statement}</p>
           <p className="hero-links">
-            <a className="link" href="#research">
+            <Link className="link" to="/research">
               Research
-            </a>
+            </Link>
             <a className="link" href={person.cvUrl} target="_blank" rel="noreferrer">
               Curriculum vitae
             </a>
@@ -243,33 +245,73 @@ function Contact() {
   )
 }
 
-function Footer() {
+function NotFound() {
+  return (
+    <section className="section section--notfound">
+      <SectionHeading label="Not found" lead="This page doesn’t exist." />
+      <Reveal>
+        <Link className="link" to="/">
+          Back to the home page
+        </Link>
+      </Reveal>
+    </section>
+  )
+}
+
+// path -> page. Each nav entry in content.js is its own page; "/" is the hero.
+const PAGES = {
+  '/': Hero,
+  '/research': Research,
+  '/writing': Writing,
+  '/teaching': Teaching,
+  '/about': About,
+  '/misc': Miscellaneous,
+  '/contact': Contact,
+}
+
+const BASE_TITLE = document.title
+
+redirectLegacyHash(Object.keys(PAGES))
+
+// Footer: copyright, and a quiet link on to the next page in reading order.
+function Footer({ path }) {
+  const order = ['/', ...nav.map((n) => n.href)]
+  const next = nav.find((n) => n.href === order[order.indexOf(path) + 1])
   return (
     <footer className="footer">
       <span>
         © {new Date().getFullYear()} {person.name}
       </span>
-      <a className="link link--quiet" href="#top">
-        Top
-      </a>
+      {next && (
+        <Link className="link link--quiet footer-next" to={next.href}>
+          {next.title} →
+        </Link>
+      )}
     </footer>
   )
 }
 
 export default function App() {
+  const path = usePath()
+  const Page = PAGES[path] ?? NotFound
+  const entry = nav.find((n) => n.href === path)
+  const mainRef = useRef(null)
+  const firstRender = useRef(true)
+
+  useEffect(() => {
+    document.title = entry ? `${entry.title} — ${person.name}` : path === '/' ? BASE_TITLE : `Not found — ${person.name}`
+    // after an in-site page switch, move keyboard/screen-reader focus to the new page
+    if (firstRender.current) firstRender.current = false
+    else mainRef.current?.focus({ preventScroll: true })
+  }, [path, entry])
+
   return (
     <>
-      <MinimalNav />
-      <main>
-        <Hero />
-        <Research />
-        <Writing />
-        <Teaching />
-        <About />
-        <Miscellaneous />
-        <Contact />
+      <MinimalNav path={path} />
+      <main ref={mainRef} tabIndex={-1} className={path === '/' ? 'page page--home' : 'page'}>
+        <Page key={path} />
       </main>
-      <Footer />
+      <Footer path={path} />
     </>
   )
 }

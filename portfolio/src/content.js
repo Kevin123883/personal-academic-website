@@ -21,13 +21,14 @@ export const person = {
   avatar: '/images/avatar.jpg',
 }
 
+// One page per entry, in reading order; `title` goes in the browser tab.
 export const nav = [
-  { href: '#research', label: 'Research' },
-  { href: '#writing', label: 'Writing' },
-  { href: '#teaching', label: 'Teaching' },
-  { href: '#about', label: 'About' },
-  { href: '#misc', label: 'Misc.' },
-  { href: '#contact', label: 'Contact' },
+  { href: '/research', label: 'Research', title: 'Research' },
+  { href: '/writing', label: 'Writing', title: 'Writing' },
+  { href: '/teaching', label: 'Teaching', title: 'Teaching' },
+  { href: '/about', label: 'About', title: 'About' },
+  { href: '/misc', label: 'Misc.', title: 'Miscellaneous' },
+  { href: '/contact', label: 'Contact', title: 'Contact' },
 ]
 
 export const hero = {

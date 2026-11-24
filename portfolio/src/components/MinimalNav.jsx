@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { nav, person } from '../content.js'
+import { Link } from '../router.jsx'
 
 const THEME_COLOR = { light: '#F5F2EA', dark: '#151716' }
 
@@ -43,7 +44,7 @@ function useTheme() {
   return [theme, toggle]
 }
 
-export default function MinimalNav() {
+export default function MinimalNav({ path }) {
   const [scrolled, setScrolled] = useState(false)
   const [theme, toggleTheme] = useTheme()
   useEffect(() => {
@@ -51,17 +52,20 @@ export default function MinimalNav() {
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [path])
+  // On the home page the hero carries the name, so the nav's copy waits for a
+  // scroll; on every other page it is the way home and always shows.
+  const cls = ['nav', scrolled && 'nav--scrolled', path !== '/' && 'nav--page'].filter(Boolean).join(' ')
   return (
-    <header className={`nav${scrolled ? ' nav--scrolled' : ''}`}>
-      <a href="#top" className="nav-name">
+    <header className={cls}>
+      <Link to="/" className="nav-name">
         {person.name}
-      </a>
-      <nav className="nav-links" aria-label="Sections">
+      </Link>
+      <nav className="nav-links" aria-label="Pages">
         {nav.map((n) => (
-          <a key={n.href} href={n.href}>
+          <Link key={n.href} to={n.href} aria-current={n.href === path ? 'page' : undefined}>
             {n.label}
-          </a>
+          </Link>
         ))}
       </nav>
       <button

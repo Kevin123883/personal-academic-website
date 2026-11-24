@@ -834,6 +834,65 @@ main {
   color: var(--ink-2);
 }
 
+.footer-next {
+  letter-spacing: 0.02em;
+}
+
+/* =========================================================
+   Pages: each nav entry is its own page. The footer sits at
+   the bottom even when a page is short.
+   ========================================================= */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+}
+
+/* main fills the space between nav and footer; its sections keep their
+   centred max-width (width:100% because auto margins in a flex column
+   would otherwise shrink them to their content) */
+main.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+main.page > *,
+.footer {
+  width: 100%;
+}
+
+/* Contact is short: let it stretch so the ridge fragment rests on the footer */
+.page > .section--contact {
+  flex: 1;
+}
+
+main.page:focus {
+  outline: none;
+}
+
+/* an inner page opens with the same quiet air above it as the hero */
+.page:not(.page--home) > .section {
+  margin-top: clamp(150px, 24vh, 240px);
+}
+
+.page:not(.page--home) > .section:not(.section--contact) {
+  margin-bottom: clamp(96px, 14vh, 180px);
+}
+
+/* the nav's name is the way home on inner pages */
+.nav--page .nav-name {
+  opacity: 1;
+}
+
+.nav-links a[aria-current='page'] {
+  color: var(--ink);
+}
+
+.nav-links a[aria-current='page']::after {
+  opacity: 0.5;
+}
+
 /* =========================================================
    Responsive
    ========================================================= */
@@ -927,6 +986,11 @@ main {
   .hero {
     padding-top: 20vh;
     padding-bottom: 34vh;
+  }
+
+  /* the nav wraps to two lines on phones; clear it */
+  .page:not(.page--home) > .section {
+    margin-top: 172px;
   }
 
   .hero-eyebrow {
