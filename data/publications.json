@@ -8,6 +8,12 @@
       "note": "Under review at Management Science.",
       "ssrn": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7208880",
       "highlight": "Accepted, 2026 MSOM TIE SIG Conference"
+    },
+    {
+      "id": "agentic-organizations",
+      "title": "A Theory of Agentic Organizations: AI Autonomy, Human Oversight, and Workflow Choice",
+      "authors": ["Kaiwen Luo", "Lingxiu Dong", "Fasheng Xu"],
+      "status": "in_prep"
     }
   ]
 }

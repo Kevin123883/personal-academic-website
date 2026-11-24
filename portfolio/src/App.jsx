@@ -68,6 +68,7 @@ function Research() {
 
 const statusText = {
   in_review: 'Under review',
+  in_prep: 'Working paper',
   working: 'Working paper',
   published: 'Published',
 }

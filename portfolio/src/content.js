@@ -78,16 +78,21 @@ export const talks = cv.presentations.contributed
 export const teachingList = teaching
 export const papers = publications.publications
 
-const paper = publications.publications[0]
-const [mainTitle, subTitle] = paper.title.split(': ')
+const paperById = (id) => publications.publications.find((p) => p.id === id)
+const splitTitle = (title) => {
+  const [title_, subtitle] = title.split(': ')
+  return { title: title_, subtitle }
+}
+
+const paper = paperById('agentic-commerce')
+const orgPaper = paperById('agentic-organizations')
 
 export const research = [
   {
     id: paper.id,
     index: '01',
     kind: 'Working paper',
-    title: mainTitle,
-    subtitle: subTitle,
+    ...splitTitle(paper.title),
     description:
       'When consumers delegate shopping to AI agents, the interface of commerce shifts: instead of searching over products, people articulate preferences. The paper builds an economic model of agentic commerce to trace what that shift does to search frictions, product complexity, and price discrimination, and how platforms should redesign themselves in response.',
     coauthors: 'with Lingxiu Dong and Fasheng Xu',
@@ -96,8 +101,18 @@ export const research = [
     link: { href: paper.ssrn, label: 'Paper on SSRN' },
   },
   {
-    id: 'potter-warehouse',
+    id: orgPaper.id,
     index: '02',
+    kind: 'Working paper',
+    ...splitTitle(orgPaper.title),
+    description:
+      'Adopting AI moves experts from production to oversight, but every hour spent checking AI output is an hour not spent producing. The paper models firms that choose among direct expert production, unchecked AI, and checked AI while competing for expert time and compute, and shows how the resulting wage and compute prices decide who keeps the gains: faster review can lower every firm’s profit, and a mandate requiring human review can increase both AI use and errors.',
+    coauthors: 'with Lingxiu Dong and Fasheng Xu',
+    status: 'Working paper',
+  },
+  {
+    id: 'potter-warehouse',
+    index: '03',
     kind: 'Applied project',
     title: 'Data-Driven Warehouse Layout Optimization for Life-Saving Products',
     description:
@@ -107,7 +122,7 @@ export const research = [
   },
   {
     id: 'edward-jones-funnel',
-    index: '03',
+    index: '04',
     kind: 'Applied project',
     title: 'Data-Driven Development Funnel Capacity Analysis',
     description:
