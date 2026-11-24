@@ -24,7 +24,7 @@ export const person = {
 // One page per entry, in reading order; `title` goes in the browser tab.
 export const nav = [
   { href: '/research', label: 'Research', title: 'Research' },
-  { href: '/writing', label: 'Writing', title: 'Writing' },
+  { href: '/projects', label: 'Projects', title: 'Applied Projects' },
   { href: '/teaching', label: 'Teaching', title: 'Teaching' },
   { href: '/about', label: 'About', title: 'About' },
   { href: '/misc', label: 'Misc.', title: 'Miscellaneous' },
@@ -75,9 +75,7 @@ export const photography = [
 
 export const educationList = education
 export const awards = cv.awards
-export const talks = cv.presentations.contributed
 export const teachingList = teaching
-export const papers = publications.publications
 
 const paperById = (id) => publications.publications.find((p) => p.id === id)
 const splitTitle = (title) => {
@@ -111,24 +109,28 @@ export const research = [
     coauthors: 'with Lingxiu Dong and Fasheng Xu',
     status: 'Working paper',
   },
+]
+
+// Applied work with industry partners: its own page, numbered from 01.
+export const projects = [
   {
     id: 'potter-warehouse',
-    index: '03',
-    kind: 'Applied project',
+    index: '01',
+    kind: 'Potter Global Technologies · Fall 2025',
     title: 'Data-Driven Warehouse Layout Optimization for Life-Saving Products',
     description:
       'Redesign of a fire-safety manufacturer’s warehouse layout, turning SKU-level movement data into a slotting optimization that shortens pick paths for products where minutes matter.',
-    coauthors: 'PhD lead · Potter Global Technologies · Boeing Center for Supply Chain Innovation',
+    coauthors: 'PhD lead · Boeing Center for Supply Chain Innovation',
     status: 'Project of the Year, 2026 BCSCI Symposium',
   },
   {
     id: 'edward-jones-funnel',
-    index: '04',
-    kind: 'Applied project',
+    index: '02',
+    kind: 'Edward Jones · Spring 2026',
     title: 'Data-Driven Development Funnel Capacity Analysis',
     description:
       'The advisor-development pipeline of a Fortune 500 financial firm, modeled as a capacitated flow to quantify where the funnel leaks and how staffing policy reshapes throughput.',
-    coauthors: 'PhD lead · Edward Jones · Boeing Center for Supply Chain Innovation',
+    coauthors: 'PhD lead · Boeing Center for Supply Chain Innovation',
     status: 'Best Presentation, 2026 BCSCI Symposium',
   },
 ]

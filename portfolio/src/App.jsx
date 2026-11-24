@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import MinimalNav from './components/MinimalNav.jsx'
-import { Link, usePath, redirectLegacyHash } from './router.jsx'
+import { Link, usePath, redirectLegacy } from './router.jsx'
 import HeroLandscape, { LandscapeFragment } from './components/HeroLandscape.jsx'
 import SectionHeading from './components/SectionHeading.jsx'
 import ResearchItem from './components/ResearchItem.jsx'
@@ -11,8 +11,7 @@ import {
   aboutSection,
   educationList,
   research,
-  papers,
-  talks,
+  projects,
   teachingList,
   awards,
   photography,
@@ -68,53 +67,17 @@ function Research() {
   )
 }
 
-const statusText = {
-  in_review: 'Under review',
-  in_prep: 'Working paper',
-  working: 'Working paper',
-  published: 'Published',
-}
-
-function Writing() {
+function Projects() {
   return (
-    <section id="writing" className="section section--writing">
-      <SectionHeading label="Writing" />
-      <div className="writing-body">
-        <Reveal>
-          <ol className="paper-list">
-            {papers.map((p) => (
-              <li key={p.id} className="paper">
-                <p className="paper-title">
-                  {p.ssrn ? (
-                    <a className="link link--quiet" href={p.ssrn} target="_blank" rel="noreferrer">
-                      {p.title}
-                    </a>
-                  ) : (
-                    p.title
-                  )}
-                </p>
-                <p className="paper-authors">{p.authors.join(', ')}</p>
-                <p className="paper-note">
-                  {(p.note || statusText[p.status] || '').replace(/\.$/, '')}
-                  {p.highlight ? ` · ${p.highlight}` : ''}
-                </p>
-              </li>
-            ))}
-          </ol>
-        </Reveal>
-        {talks.length > 0 && (
-          <Reveal className="talks">
-            <p className="label">Talks</p>
-            <ul className="talk-list">
-              {talks.map((t) => (
-                <li key={t.id}>
-                  <span className="talk-event">{t.event}</span>
-                  <span className="talk-date">{t.date}</span>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        )}
+    <section id="projects" className="section section--research">
+      <SectionHeading
+        label="Applied Projects"
+        lead="Operations problems from industry partners, through the Boeing Center for Supply Chain Innovation."
+      />
+      <div className="research-list">
+        {projects.map((item) => (
+          <ResearchItem key={item.id} item={item} />
+        ))}
       </div>
     </section>
   )
@@ -262,7 +225,7 @@ function NotFound() {
 const PAGES = {
   '/': Hero,
   '/research': Research,
-  '/writing': Writing,
+  '/projects': Projects,
   '/teaching': Teaching,
   '/about': About,
   '/misc': Miscellaneous,
@@ -271,7 +234,8 @@ const PAGES = {
 
 const BASE_TITLE = document.title
 
-redirectLegacyHash(Object.keys(PAGES))
+// Retired pages: Writing (papers now live on Research only).
+redirectLegacy(Object.keys(PAGES), { '/writing': '/research' })
 
 // Footer: copyright, and a quiet link on to the next page in reading order.
 function Footer({ path }) {
