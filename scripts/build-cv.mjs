@@ -73,7 +73,10 @@ function formatPublication(p) {
   if (p.venue) parts.push(`${tex(p.venue)}.`);
   if (p.year) parts.push(`${tex(p.year)}.`);
   if (p.note) parts.push(tex(p.note));
-  if (p.highlight) parts.push(`\\textbf{${tex(p.highlight)}.}`);
+  for (const h of p.highlights ?? []) {
+    const text = h.url ? `\\href{${texUrl(h.url)}}{${tex(h.text)}}` : tex(h.text);
+    parts.push(`\\textbf{${text}.}`);
+  }
   return parts.join(' ');
 }
 

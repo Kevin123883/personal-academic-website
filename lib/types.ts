@@ -44,11 +44,17 @@ export interface Publication {
   status: PublicationStatus;
   /** Status note for unpublished work, e.g. "In preparation.". */
   note?: string;
-  /** A distinction to spotlight, e.g. "Accepted, 2026 MSOM TIE SIG Conference". */
-  highlight?: string;
+  /** Distinctions to spotlight, e.g. "Accepted, 2026 MSOM TIE SIG Conference". */
+  highlights?: PublicationHighlight[];
   abstract?: string;
   pdf?: string;
   ssrn?: string;
+}
+
+export interface PublicationHighlight {
+  text: string;
+  /** Optional link, e.g. to the report that cites the paper. */
+  url?: string;
 }
 
 export interface PublicationsData {
