@@ -32,6 +32,18 @@ export default function ResearchItem({ item }) {
               <dd>{item.venues}</dd>
             </div>
           )}
+          {item.cited?.length > 0 && (
+            <div>
+              <dt>Cited</dt>
+              <dd>
+                {item.cited.map((c) => (
+                  <a key={c.href} className="link" href={c.href} target="_blank" rel="noreferrer">
+                    {c.label}
+                  </a>
+                ))}
+              </dd>
+            </div>
+          )}
           {item.link && (
             <div>
               <dt>Link</dt>

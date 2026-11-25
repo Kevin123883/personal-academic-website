@@ -7,7 +7,13 @@
       "status": "in_review",
       "note": "Under review at Management Science.",
       "ssrn": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7208880",
-      "highlight": "Accepted, 2026 MSOM TIE SIG Conference"
+      "highlights": [
+        { "text": "Accepted, 2026 MSOM TIE SIG Conference" },
+        {
+          "text": "Cited and discussed in the OECD’s 2026 report on competition and agentic AI",
+          "url": "https://www.oecd.org/en/publications/competition-and-agentic-ai_d1a3ee15-en/full-report/component-9.html#biblio-d1e2930"
+        }
+      ]
     },
     {
       "id": "agentic-organizations",

@@ -57,11 +57,28 @@ export default function PublicationCard({
         </p>
       )}
 
-      {publication.highlight && (
-        <p className="mt-2.5">
-          <span className="inline-flex items-center rounded-full border border-accent/30 bg-accent/[0.06] px-3 py-1 text-xs font-medium text-accent">
-            {publication.highlight}
-          </span>
+      {publication.highlights && publication.highlights.length > 0 && (
+        <p className="mt-2.5 flex flex-wrap gap-2">
+          {publication.highlights.map((h) => {
+            const pill =
+              'inline-flex items-center rounded-full border border-accent/30 bg-accent/[0.06] px-3 py-1 text-xs font-medium text-accent';
+            return h.url ? (
+              <a
+                key={h.text}
+                href={h.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${pill} transition-colors hover:border-accent/60 hover:bg-accent/[0.12]`}
+              >
+                {h.text}
+                <span aria-hidden="true" className="ml-1">↗</span>
+              </a>
+            ) : (
+              <span key={h.text} className={pill}>
+                {h.text}
+              </span>
+            );
+          })}
         </p>
       )}
 

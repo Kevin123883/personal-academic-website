@@ -97,6 +97,12 @@ export const research = [
     coauthors: 'with Lingxiu Dong and Fasheng Xu',
     status: paper.note.replace(/\.$/, ''),
     venues: 'MSOM TIE SIG 2026 · POMS 2026 · INFORMS 2026',
+    cited: [
+      {
+        href: paper.highlights.find((h) => h.url?.includes('oecd.org')).url,
+        label: 'OECD, Competition and Agentic AI (2026)',
+      },
+    ],
     link: { href: paper.ssrn, label: 'Paper on SSRN' },
   },
   {
